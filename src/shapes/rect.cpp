@@ -31,9 +31,12 @@ void Rect::initVectors() {
     this->vertices.insert(vertices.end(), {
             // TODO: Add other three corners here
             // Note: the order of the corners matters because the two triangles
-            //    formed below from the indices of these corners must fill the 
-            //    rectangle
-            0.5f, -0.5f  // x, y of bottom right corner
+            // formed below from the indices of these corners must fill the
+            // rectangle
+            -0.5f, 0.5f,  //x, y of top left
+            0.5f, 0.5f,   //x,y of top right
+            -0.5f, -0.5f, //x,y of bottom left
+            0.5f, -0.5f   // x, y of bottom right corner
     });
 
     this->indices.insert(indices.end(), {
