@@ -109,6 +109,15 @@ void Engine::processInput() {
         spawnButton->setPosX(spawnButton->getPosX() + 1);
 
     // TODO: Make sure the spawnButton cannot go off the screen
+    if (spawnButton->getRight() > width) {
+        spawnButton->setPosX(width - 50);
+    } else if (spawnButton->getLeft() < 0) {
+        spawnButton->setPosX(50);
+    } else if (spawnButton->getTop() > height) {
+        spawnButton->setPosY(height - 25);
+    } else if (spawnButton->getBottom() < 0) {
+        spawnButton->setPosY(25);
+    }
 
     // Mouse position is inverted because the origin of the window is in the top left corner
     MouseY = height - MouseY; // Invert y-axis of mouse position
@@ -117,6 +126,9 @@ void Engine::processInput() {
 
     // TODO: When in play screen, if the user hovers or clicks on the button then change the spawnButton's color
     // Hint: look at the color objects declared at the top of this file
+    if (screen == play && buttonOverlapsMouse) {
+
+    } else if (screen == play && buttonOverlapsMouse && mousePressed) {}
     // TODO: When in play screen, if the button was released then spawn confetti
     // Hint: the button was released if it was pressed last frame and is not pressed now
     // TODO: Make sure the spawn button is its original color when the user is not hovering or clicking on it.
