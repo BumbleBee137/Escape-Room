@@ -126,12 +126,25 @@ void Engine::processInput() {
 
     // TODO: When in play screen, if the user hovers or clicks on the button then change the spawnButton's color
     // Hint: look at the color objects declared at the top of this file
-    if (screen == play && buttonOverlapsMouse) {
-
-    } else if (screen == play && buttonOverlapsMouse && mousePressed) {}
+    if (screen == play && buttonOverlapsMouse && mousePressed) {
+        spawnButton->setColor(pressFill);
+        this->render();
+        glfwSwapBuffers(window);
+    }
+    else if (screen == play && buttonOverlapsMouse) {
+        spawnButton->setColor(hoverFill);
+        this->render();
+        glfwSwapBuffers(window);
+    }
     // TODO: When in play screen, if the button was released then spawn confetti
     // Hint: the button was released if it was pressed last frame and is not pressed now
+    if (screen == play && mousePressedLastFrame && !mousePressed) {
+        spawnConfetti();
+    }
     // TODO: Make sure the spawn button is its original color when the user is not hovering or clicking on it.
+    if (screen == play && buttonOverlapsMouse) {
+        spawnButton->setColor(originalFill);
+    }
 
 
     // Save mousePressed for next frame
