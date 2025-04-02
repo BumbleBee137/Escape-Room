@@ -159,6 +159,9 @@ void Engine::update() {
     lastFrame = currentFrame;
 
     // TODO: End the game when the user spawns 100 confetti
+    if (confetti.size() == 100) {
+        screen = over;
+    }
     // If the size of the confetti vector reaches 100, change screen to over
 
 }
@@ -186,6 +189,11 @@ void Engine::render() {
             // TODO: call setUniforms and draw on the spawnButton and all of the confetti pieces
             //  Hint: make sure you draw the spawn button after the confetti to make it appear on top
 
+            for (int i = 0; i < confetti.size(); i++) {
+                confetti[i]->setUniforms();
+                confetti[i]->draw();
+            }
+
             spawnButton->setUniforms();
             spawnButton->draw();
 
@@ -208,7 +216,7 @@ void Engine::spawnConfetti() {
     vec2 pos = {rand() % (int)width, rand() % (int)height};
     // TODO: Make each piece of confetti a different size, getting bigger with each spawn.
     //  The smallest should be a square of size 1 and the biggest should be a square of size 100
-    vec2 size = {10, 10}; // placeholder
+    vec2 size = {confetti.size() + 1, confetti.size() + 1}; // placeholder
     color color = {float(rand() % 10 / 10.0), float(rand() % 10 / 10.0), float(rand() % 10 / 10.0), 1.0f};
     confetti.push_back(make_unique<Rect>(shapeShader, pos, size, color));
 }
