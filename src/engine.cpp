@@ -94,9 +94,20 @@ void Engine::processInput() {
 
     // TODO: If we're in the start screen and the user presses s, change screen to play
     // Hint: The index is GLFW_KEY_S
+    if (keys[GLFW_KEY_S])
+        screen = play;
 
     // TODO: If we're in the play screen and an arrow key is pressed, move the spawnButton
     // Hint: one of the indices is GLFW_KEY_UP
+    if (screen == play && keys[GLFW_KEY_UP])
+        spawnButton->setPosY(spawnButton->getPosY() + 1);
+    else if (screen == play && keys[GLFW_KEY_DOWN])
+        spawnButton->setPosY(spawnButton->getPosY() - 1);
+    else if (screen == play && keys[GLFW_KEY_LEFT])
+        spawnButton->setPosX(spawnButton->getPosX() - 1);
+    else if (screen == play && keys[GLFW_KEY_RIGHT])
+        spawnButton->setPosX(spawnButton->getPosX() + 1);
+
     // TODO: Make sure the spawnButton cannot go off the screen
 
     // Mouse position is inverted because the origin of the window is in the top left corner
