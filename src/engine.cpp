@@ -149,6 +149,10 @@ void Engine::render() {
         case play: {
             // TODO: call setUniforms and draw on the spawnButton and all of the confetti pieces
             //  Hint: make sure you draw the spawn button after the confetti to make it appear on top
+
+            spawnButton->setUniforms();
+            spawnButton->draw();
+
             // Render font on top of spawn button
             fontRenderer->renderText("Spawn", spawnButton->getPos().x - 30, spawnButton->getPos().y - 5, projection, 0.5, vec3{1, 1, 1});
             break;
@@ -156,6 +160,7 @@ void Engine::render() {
         case over: {
             string message = "You win!";
             // TODO: Display the message on the screen
+            fontRenderer->renderText(message, width/2 - (12 * message.length()), height/2, projection, 1, vec3{1, 1, 1});
             break;
         }
     }
