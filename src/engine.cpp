@@ -97,22 +97,22 @@ void Engine::processInput() {
     if (screen == left) {
         if (keys[GLFW_KEY_LEFT] && !leftLastFrame)
             screen = back;
-        else if (keys[GLFW_KEY_RIGHT])
+        else if (keys[GLFW_KEY_RIGHT] && !rightLastFrame)
             screen = front;
     }else if (screen == back) {
         if (keys[GLFW_KEY_LEFT] && !leftLastFrame)
             screen = right;
-        else if (keys[GLFW_KEY_RIGHT])
+        else if (keys[GLFW_KEY_RIGHT] && !rightLastFrame)
             screen = left;
     }else if (screen == right) {
         if (keys[GLFW_KEY_LEFT] && !leftLastFrame)
             screen = front;
-        else if (keys[GLFW_KEY_RIGHT])
+        else if (keys[GLFW_KEY_RIGHT] && !rightLastFrame)
             screen = back;
     }else if (screen == front) {
         if (keys[GLFW_KEY_LEFT] && !leftLastFrame)
             screen = left;
-        else if (keys[GLFW_KEY_RIGHT])
+        else if (keys[GLFW_KEY_RIGHT] && !rightLastFrame)
             screen = right;
     }
 
@@ -129,8 +129,8 @@ void Engine::processInput() {
     // Save mousePressed for next frame
     mousePressedLastFrame = mousePressed;
 
-    leftLastFrame = GLFW_KEY_LEFT;
-    rightLastFrame = GLFW_KEY_RIGHT;
+    leftLastFrame = keys[GLFW_KEY_LEFT];
+    rightLastFrame = keys[GLFW_KEY_RIGHT];
 
 }
 
