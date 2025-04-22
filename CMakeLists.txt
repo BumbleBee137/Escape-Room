@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.14)
-project(Confetti_button)
+project(Final-Project)
 set(CMAKE_CXX_STANDARD 17)
 
 ## ~ CONFIGURE DEPENDENCIES ~
