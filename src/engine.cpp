@@ -6,8 +6,6 @@ state screen;
 // Colors
 color originalFill, hoverFill, pressFill;
 
-// TODO Note: complete the drawing TODOs in render before the other TODOs,
-//  otherwise you won't be able to see if your code is correct
 
 Engine::Engine() : keys() {
     this->initWindow();
@@ -92,12 +90,10 @@ void Engine::processInput() {
     // Mouse position saved to check for collisions
     glfwGetCursorPos(window, &MouseX, &MouseY);
 
-    // TODO: If we're in the start screen and the user presses s, change screen to play
     // Hint: The index is GLFW_KEY_S
     if (keys[GLFW_KEY_S])
         screen = play;
 
-    // TODO: If we're in the play screen and an arrow key is pressed, move the spawnButton
     // Hint: one of the indices is GLFW_KEY_UP
     if (screen == play && keys[GLFW_KEY_UP])
         spawnButton->setPosY(spawnButton->getPosY() + 1);
@@ -108,7 +104,6 @@ void Engine::processInput() {
     else if (screen == play && keys[GLFW_KEY_RIGHT])
         spawnButton->setPosX(spawnButton->getPosX() + 1);
 
-    // TODO: Make sure the spawnButton cannot go off the screen
     if (spawnButton->getRight() > width) {
         spawnButton->setPosX(width - 50);
     } else if (spawnButton->getLeft() < 0) {
@@ -124,7 +119,6 @@ void Engine::processInput() {
     bool buttonOverlapsMouse = spawnButton->isOverlapping(vec2(MouseX, MouseY));
     bool mousePressed = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS;
 
-    // TODO: When in play screen, if the user hovers or clicks on the button then change the spawnButton's color
     // Hint: look at the color objects declared at the top of this file
     if (screen == play && buttonOverlapsMouse && mousePressed) {
         spawnButton->setColor(pressFill);
@@ -136,12 +130,10 @@ void Engine::processInput() {
         this->render();
         glfwSwapBuffers(window);
     }
-    // TODO: When in play screen, if the button was released then spawn confetti
     // Hint: the button was released if it was pressed last frame and is not pressed now
     if (screen == play && mousePressedLastFrame && !mousePressed) {
         spawnConfetti();
     }
-    // TODO: Make sure the spawn button is its original color when the user is not hovering or clicking on it.
     if (screen == play && buttonOverlapsMouse) {
         spawnButton->setColor(originalFill);
     }
@@ -158,7 +150,6 @@ void Engine::update() {
     deltaTime = currentFrame - lastFrame;
     lastFrame = currentFrame;
 
-    // TODO: End the game when the user spawns 100 confetti
     if (confetti.size() == 100) {
         screen = over;
     }
@@ -186,8 +177,6 @@ void Engine::render() {
             break;
         }
         case play: {
-            // TODO: call setUniforms and draw on the spawnButton and all of the confetti pieces
-            //  Hint: make sure you draw the spawn button after the confetti to make it appear on top
 
             for (int i = 0; i < confetti.size(); i++) {
                 confetti[i]->setUniforms();
@@ -203,7 +192,6 @@ void Engine::render() {
         }
         case over: {
             string message = "You win!";
-            // TODO: Display the message on the screen
             fontRenderer->renderText(message, width/2 - (12 * message.length()), height/2, projection, 1, vec3{1, 1, 1});
             break;
         }
@@ -214,8 +202,6 @@ void Engine::render() {
 
 void Engine::spawnConfetti() {
     vec2 pos = {rand() % (int)width, rand() % (int)height};
-    // TODO: Make each piece of confetti a different size, getting bigger with each spawn.
-    //  The smallest should be a square of size 1 and the biggest should be a square of size 100
     vec2 size = {confetti.size() + 1, confetti.size() + 1}; // placeholder
     color color = {float(rand() % 10 / 10.0), float(rand() % 10 / 10.0), float(rand() % 10 / 10.0), 1.0f};
     confetti.push_back(make_unique<Rect>(shapeShader, pos, size, color));

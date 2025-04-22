@@ -29,7 +29,6 @@ void Rect::draw() const {
 
 void Rect::initVectors() {
     this->vertices.insert(vertices.end(), {
-            // TODO: Add other three corners here
             // Note: the order of the corners matters because the two triangles
             // formed below from the indices of these corners must fill the
             // rectangle
@@ -46,7 +45,6 @@ void Rect::initVectors() {
 }
 // Overridden Getters from Shape
 float Rect::getLeft() const        { return pos.x - (size.x / 2); }
-// TODO: Implement getRight, getTop, and getBottom
 float Rect::getRight() const       { return pos.x + (size.x / 2);}
 float Rect::getTop() const         { return pos.y + (size.y / 2);}
 float Rect::getBottom() const      { return pos.y - (size.y / 2); }
