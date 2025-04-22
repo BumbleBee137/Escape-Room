@@ -23,14 +23,14 @@ public:
     void draw() const override;
 
     /// @brief Populates the vertices and indices vectors
-    void initVectors() override;
+    void initVectors() ;
 
     float getLeft() const override;
     float getRight() const override;
     float getTop() const override;
     float getBottom() const override;
 
-    bool isOverlapping(const Shape& other) const override;
+    bool isOverlapping(const Shape& other) const;
 };
 
 #endif //GRAPHICS_TRIANGLE_H

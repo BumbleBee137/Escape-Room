@@ -3,6 +3,7 @@
 
 #include "shape.h"
 #include "../shader/shader.h"
+#include "../util/color.h"
 using std::vector, glm::vec2, glm::vec3, glm::normalize, glm::dot;
 
 
@@ -28,17 +29,17 @@ public:
         initVBO();
     }
 
-    Circle(Shader & shader, vec2 pos, vec2 size, color c)
+    Circle(Shader & shader, vec2 pos, vec2 size, struct color c)
         : Circle(shader, pos, size, vec2(0, 0), c) {}
 
-    Circle(Shader &shader, vec2 pos, float radius, color c)
+    Circle(Shader &shader, vec2 pos, float radius, struct color c)
         : Circle(shader, pos, vec2(radius * 2, radius * 2), vec2(0, 0),c) {}
 
-    Circle(Shader &shader, vec2 pos, float radius, vec2 velocity, color c)
+    Circle(Shader &shader, vec2 pos, float radius, vec2 velocity, struct color c)
         : Circle(shader, pos, vec2(radius * 2, radius * 2), velocity, c) {}
 
     // override setUniforms to set the radius uniform
-    void setUniforms() const override;
+    void setUniforms() const;
 
     /// @brief Destroy the Circle object
     /// @details destroys the VAO and VBO associated with the circle
