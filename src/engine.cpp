@@ -1,6 +1,6 @@
 #include "engine.h"
 
-enum state {front, left, right, back};
+enum state {north, east, west, south};
 state screen;
 
 // Colors
@@ -94,26 +94,26 @@ void Engine::processInput() {
     glfwGetCursorPos(window, &MouseX, &MouseY);
 
     // Moving between windows
-    if (screen == left) {
+    if (screen == east) {
         if (keys[GLFW_KEY_LEFT] && !leftLastFrame)
-            screen = back;
+            screen = south;
         else if (keys[GLFW_KEY_RIGHT] && !rightLastFrame)
-            screen = front;
-    }else if (screen == back) {
+            screen = north;
+    }else if (screen == south) {
         if (keys[GLFW_KEY_LEFT] && !leftLastFrame)
-            screen = right;
+            screen = west;
         else if (keys[GLFW_KEY_RIGHT] && !rightLastFrame)
-            screen = left;
-    }else if (screen == right) {
+            screen = east;
+    }else if (screen == west) {
         if (keys[GLFW_KEY_LEFT] && !leftLastFrame)
-            screen = front;
+            screen = north;
         else if (keys[GLFW_KEY_RIGHT] && !rightLastFrame)
-            screen = back;
-    }else if (screen == front) {
+            screen = south;
+    }else if (screen == north) {
         if (keys[GLFW_KEY_LEFT] && !leftLastFrame)
-            screen = left;
+            screen = east;
         else if (keys[GLFW_KEY_RIGHT] && !rightLastFrame)
-            screen = right;
+            screen = west;
     }
 
 
@@ -123,12 +123,9 @@ void Engine::processInput() {
     bool buttonOverlapsMouse = spawnButton->isOverlapping(vec2(MouseX, MouseY));
     bool mousePressed = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS;
 
-    // Hint: look at the color objects declared at the top of this file
 
-
-    // Save mousePressed for next frame
+    // Save mousePressed & left and right arrow for next frame
     mousePressedLastFrame = mousePressed;
-
     leftLastFrame = keys[GLFW_KEY_LEFT];
     rightLastFrame = keys[GLFW_KEY_RIGHT];
 
@@ -144,7 +141,7 @@ void Engine::update() {
 }
 
 void Engine::render() {
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Set background color
+    glClearColor(234.0/255.0, 210.0/255.0, 168.0/255.0f, 1.0f); // Set background color
     glClear(GL_COLOR_BUFFER_BIT);
 
     // Set shader to draw shapes
@@ -152,8 +149,8 @@ void Engine::render() {
 
     // Render differently depending on screen
     switch (screen) {
-        case left: {
-            string message = "Left";
+        case west: {
+            string message = "West";
             // (12 * message.length()) is the offset to center text.
             // 12 pixels is the width of each character scaled by 1.
             // NOTE: This line changes the shader being used to the font shader.
@@ -162,8 +159,8 @@ void Engine::render() {
             this->fontRenderer->renderText(message, width/2 - (12 * message.length()), height/2, projection, 1, vec3{1, 1, 1});
             break;
         }
-        case back: {
-            string message = "Back";
+        case south: {
+            string message = "South";
             // (12 * message.length()) is the offset to center text.
             // 12 pixels is the width of each character scaled by 1.
             // NOTE: This line changes the shader being used to the font shader.
@@ -172,8 +169,8 @@ void Engine::render() {
             this->fontRenderer->renderText(message, width/2 - (12 * message.length()), height/2, projection, 1, vec3{1, 1, 1});
             break;
         }
-        case right: {
-            string message = "Right";
+        case east: {
+            string message = "East";
             // (12 * message.length()) is the offset to center text.
             // 12 pixels is the width of each character scaled by 1.
             // NOTE: This line changes the shader being used to the font shader.
@@ -182,8 +179,8 @@ void Engine::render() {
             this->fontRenderer->renderText(message, width/2 - (12 * message.length()), height/2, projection, 1, vec3{1, 1, 1});
             break;
         }
-        case front: {
-            string message = "Front";
+        case north: {
+            string message = "North";
             // (12 * message.length()) is the offset to center text.
             // 12 pixels is the width of each character scaled by 1.
             // NOTE: This line changes the shader being used to the font shader.
