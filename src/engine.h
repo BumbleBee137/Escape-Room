@@ -51,6 +51,9 @@ private:
     double MouseX, MouseY;
     bool mousePressedLastFrame = false;
 
+    bool leftLastFrame = false;
+    bool rightLastFrame = false;
+
     /// @note Call glCheckError() after every OpenGL call to check for errors.
     GLenum glCheckError_(const char *file, int line);
     /// @brief Macro for glCheckError_ function. Used for debugging.
@@ -74,9 +77,6 @@ public:
 
     /// @brief Initializes the shapes to be rendered.
     void initShapes();
-
-    /// @brief Pushes back a new colored rectangle to the confetti vector.
-    void spawnConfetti();
 
     /// @brief Processes input from the user.
     /// @details (e.g. keyboard input, mouse input, etc.)

@@ -1,6 +1,6 @@
 #include "engine.h"
 
-enum state {start, play, over};
+enum state {front, left, right, back};
 state screen;
 
 // Colors
@@ -77,11 +77,14 @@ void Engine::processInput() {
 
     // Set keys to true if pressed, false if released
     for (int key = 0; key < 1024; ++key) {
-        if (glfwGetKey(window, key) == GLFW_PRESS)
+        if (glfwGetKey(window, key) == GLFW_PRESS) {
             keys[key] = true;
-        else if (glfwGetKey(window, key) == GLFW_RELEASE)
+        }
+        else if (glfwGetKey(window, key) == GLFW_RELEASE) {
             keys[key] = false;
+        }
     }
+
 
     // Close window if escape key is pressed
     if (keys[GLFW_KEY_ESCAPE])
@@ -90,29 +93,30 @@ void Engine::processInput() {
     // Mouse position saved to check for collisions
     glfwGetCursorPos(window, &MouseX, &MouseY);
 
-    // Hint: The index is GLFW_KEY_S
-    if (keys[GLFW_KEY_S])
-        screen = play;
-
-    // Hint: one of the indices is GLFW_KEY_UP
-    if (screen == play && keys[GLFW_KEY_UP])
-        spawnButton->setPosY(spawnButton->getPosY() + 1);
-    else if (screen == play && keys[GLFW_KEY_DOWN])
-        spawnButton->setPosY(spawnButton->getPosY() - 1);
-    else if (screen == play && keys[GLFW_KEY_LEFT])
-        spawnButton->setPosX(spawnButton->getPosX() - 1);
-    else if (screen == play && keys[GLFW_KEY_RIGHT])
-        spawnButton->setPosX(spawnButton->getPosX() + 1);
-
-    if (spawnButton->getRight() > width) {
-        spawnButton->setPosX(width - 50);
-    } else if (spawnButton->getLeft() < 0) {
-        spawnButton->setPosX(50);
-    } else if (spawnButton->getTop() > height) {
-        spawnButton->setPosY(height - 25);
-    } else if (spawnButton->getBottom() < 0) {
-        spawnButton->setPosY(25);
+    // Moving between windows
+    if (screen == left) {
+        if (keys[GLFW_KEY_LEFT] && !leftLastFrame)
+            screen = back;
+        else if (keys[GLFW_KEY_RIGHT])
+            screen = front;
+    }else if (screen == back) {
+        if (keys[GLFW_KEY_LEFT] && !leftLastFrame)
+            screen = right;
+        else if (keys[GLFW_KEY_RIGHT])
+            screen = left;
+    }else if (screen == right) {
+        if (keys[GLFW_KEY_LEFT] && !leftLastFrame)
+            screen = front;
+        else if (keys[GLFW_KEY_RIGHT])
+            screen = back;
+    }else if (screen == front) {
+        if (keys[GLFW_KEY_LEFT] && !leftLastFrame)
+            screen = left;
+        else if (keys[GLFW_KEY_RIGHT])
+            screen = right;
     }
+
+
 
     // Mouse position is inverted because the origin of the window is in the top left corner
     MouseY = height - MouseY; // Invert y-axis of mouse position
@@ -120,27 +124,13 @@ void Engine::processInput() {
     bool mousePressed = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS;
 
     // Hint: look at the color objects declared at the top of this file
-    if (screen == play && buttonOverlapsMouse && mousePressed) {
-        spawnButton->setColor(pressFill);
-        this->render();
-        glfwSwapBuffers(window);
-    }
-    else if (screen == play && buttonOverlapsMouse) {
-        spawnButton->setColor(hoverFill);
-        this->render();
-        glfwSwapBuffers(window);
-    }
-    // Hint: the button was released if it was pressed last frame and is not pressed now
-    if (screen == play && mousePressedLastFrame && !mousePressed) {
-        spawnConfetti();
-    }
-    if (screen == play && buttonOverlapsMouse) {
-        spawnButton->setColor(originalFill);
-    }
 
 
     // Save mousePressed for next frame
     mousePressedLastFrame = mousePressed;
+
+    leftLastFrame = GLFW_KEY_LEFT;
+    rightLastFrame = GLFW_KEY_RIGHT;
 
 }
 
@@ -150,10 +140,6 @@ void Engine::update() {
     deltaTime = currentFrame - lastFrame;
     lastFrame = currentFrame;
 
-    if (confetti.size() == 100) {
-        screen = over;
-    }
-    // If the size of the confetti vector reaches 100, change screen to over
 
 }
 
@@ -166,8 +152,8 @@ void Engine::render() {
 
     // Render differently depending on screen
     switch (screen) {
-        case start: {
-            string message = "Press s to start";
+        case left: {
+            string message = "Left";
             // (12 * message.length()) is the offset to center text.
             // 12 pixels is the width of each character scaled by 1.
             // NOTE: This line changes the shader being used to the font shader.
@@ -176,35 +162,39 @@ void Engine::render() {
             this->fontRenderer->renderText(message, width/2 - (12 * message.length()), height/2, projection, 1, vec3{1, 1, 1});
             break;
         }
-        case play: {
-
-            for (int i = 0; i < confetti.size(); i++) {
-                confetti[i]->setUniforms();
-                confetti[i]->draw();
-            }
-
-            spawnButton->setUniforms();
-            spawnButton->draw();
-
-            // Render font on top of spawn button
-            fontRenderer->renderText("Spawn", spawnButton->getPos().x - 30, spawnButton->getPos().y - 5, projection, 0.5, vec3{1, 1, 1});
+        case back: {
+            string message = "Back";
+            // (12 * message.length()) is the offset to center text.
+            // 12 pixels is the width of each character scaled by 1.
+            // NOTE: This line changes the shader being used to the font shader.
+            //  If you want to draw shapes again after drawing text,
+            //  you'll need to call shapeShader.use() again first.
+            this->fontRenderer->renderText(message, width/2 - (12 * message.length()), height/2, projection, 1, vec3{1, 1, 1});
             break;
         }
-        case over: {
-            string message = "You win!";
-            fontRenderer->renderText(message, width/2 - (12 * message.length()), height/2, projection, 1, vec3{1, 1, 1});
+        case right: {
+            string message = "Right";
+            // (12 * message.length()) is the offset to center text.
+            // 12 pixels is the width of each character scaled by 1.
+            // NOTE: This line changes the shader being used to the font shader.
+            //  If you want to draw shapes again after drawing text,
+            //  you'll need to call shapeShader.use() again first.
+            this->fontRenderer->renderText(message, width/2 - (12 * message.length()), height/2, projection, 1, vec3{1, 1, 1});
+            break;
+        }
+        case front: {
+            string message = "Front";
+            // (12 * message.length()) is the offset to center text.
+            // 12 pixels is the width of each character scaled by 1.
+            // NOTE: This line changes the shader being used to the font shader.
+            //  If you want to draw shapes again after drawing text,
+            //  you'll need to call shapeShader.use() again first.
+            this->fontRenderer->renderText(message, width/2 - (12 * message.length()), height/2, projection, 1, vec3{1, 1, 1});
             break;
         }
     }
 
     glfwSwapBuffers(window);
-}
-
-void Engine::spawnConfetti() {
-    vec2 pos = {rand() % (int)width, rand() % (int)height};
-    vec2 size = {confetti.size() + 1, confetti.size() + 1}; // placeholder
-    color color = {float(rand() % 10 / 10.0), float(rand() % 10 / 10.0), float(rand() % 10 / 10.0), 1.0f};
-    confetti.push_back(make_unique<Rect>(shapeShader, pos, size, color));
 }
 
 bool Engine::shouldClose() {
