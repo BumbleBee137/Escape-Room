@@ -70,6 +70,9 @@ void Engine::initShaders() {
 void Engine::initShapes() {
     // red spawn button centered in the top left corner
     spawnButton = make_unique<Rect>(shapeShader, vec2{width/2,height/2}, vec2{100, 50}, color{1, 0, 0, 1});
+    //testing that all shapes work correctly
+    triangleTest = make_unique<Triangle>(shapeShader, vec2{width/2,height/2}, vec2{100, 50}, color{1, 0, 0, 1});
+    circleTest = make_unique<Circle>(shapeShader, vec2{width/2,height/2}, vec2{10, 5}, color{1, 0, 0, 1});
 }
 
 void Engine::processInput() {
@@ -157,6 +160,9 @@ void Engine::render() {
             //  If you want to draw shapes again after drawing text,
             //  you'll need to call shapeShader.use() again first.
             this->fontRenderer->renderText(message, width/2 - (12 * message.length()), height/2, projection, 1, vec3{1, 1, 1});
+            shapeShader.use();
+            triangleTest->setUniforms();
+            triangleTest->draw();
             break;
         }
         case south: {
@@ -167,6 +173,9 @@ void Engine::render() {
             //  If you want to draw shapes again after drawing text,
             //  you'll need to call shapeShader.use() again first.
             this->fontRenderer->renderText(message, width/2 - (12 * message.length()), height/2, projection, 1, vec3{1, 1, 1});
+            shapeShader.use();
+            circleTest->setUniforms();
+            circleTest->draw();
             break;
         }
         case east: {

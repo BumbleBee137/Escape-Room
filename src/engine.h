@@ -10,6 +10,8 @@
 #include "font/fontRenderer.h"
 #include "shapes/rect.h"
 #include "shapes/shape.h"
+#include "shapes/triangle.h"
+#include "shapes/circle.h"
 
 using std::vector, std::unique_ptr, std::make_unique, glm::ortho, glm::mat4, glm::vec3, glm::vec4;
 
@@ -41,7 +43,7 @@ private:
     unique_ptr<FontRenderer> fontRenderer;
 
     // Shapes
-    unique_ptr<Shape> spawnButton;
+    unique_ptr<Shape> spawnButton, triangleTest, circleTest;
     vector<unique_ptr<Shape>> confetti;
 
     // Shaders
