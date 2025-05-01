@@ -174,6 +174,7 @@ void Engine::render() {
             //  you'll need to call shapeShader.use() again first.
             this->fontRenderer->renderText(message, width/2 - (12 * message.length()), height/2, projection, 1, vec3{1, 1, 1});
             shapeShader.use();
+            if (circleTest->isOverlapping({MouseX, MouseY})) circleTest->setColor(pressFill);
             circleTest->setUniforms();
             circleTest->draw();
             break;
