@@ -5,8 +5,10 @@
 #ifndef ITEM_H
 #define ITEM_H
 
-#include "shape.h"
+#include "../shapes/shape.h"
 #include "../shader/shader.h"
+#include "../util/color.h"
+#include "glm/glm.hpp"
 #include <memory>
 using std::make_unique, std::unique_ptr, glm::vec2;
 
@@ -17,13 +19,12 @@ private:
 public:
     // Constructors
     Item();
-    Item(Shader& shader, vec2 pos);
 
     // Draw the item
     void setUniformsAndDraw() const;
 
     // Return true if overlaps with a point given
-    bool isOverlapping(const vect2& point) const;
+    virtual bool isOverlapping(const vec2& point) const;
 };
 
 #endif //ITEM_H

@@ -105,6 +105,7 @@ add_definitions(-DGLFW_INCLUDE_NONE
 add_executable(${PROJECT_NAME} ${PROJECT_SOURCES} ${PROJECT_HEADERS}
                                ${PROJECT_SHADERS} ${PROJECT_CONFIGS}
                                ${VENDORS_SOURCES}
-        src/Items/item.h)
+        src/Items/item.h
+        src/Items/item.cpp)
 # Include libraries
 target_link_libraries(${PROJECT_NAME} glfw glm freetype)
