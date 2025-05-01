@@ -43,3 +43,10 @@ bool Triangle::isOverlapping(const Shape &other) const {
     return other.getLeft() <= pos.x && other.getRight() >= pos.x &&
            other.getTop() >= getTop() && other.getBottom() <= getTop();
 }
+
+bool Triangle::isOverlapping(const vec2& point) const {
+    if (point.y < getBottom() || point.y > getTop() || point.x > getRight() || point.x < getLeft()) return false;
+    if (distance({getLeft(),getBottom()}, point) + distance({getRight(),getBottom()}, point) + distance({pos.x,getTop()}, point)
+        > getRight()-getLeft() + getTop() - getBottom()) return false;
+    return true;
+}

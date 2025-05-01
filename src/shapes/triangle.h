@@ -31,6 +31,7 @@ public:
     float getBottom() const override;
 
     bool isOverlapping(const Shape& other) const;
+    bool isOverlapping(const vec2& point) const;
 };
 
 #endif //GRAPHICS_TRIANGLE_H
