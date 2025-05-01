@@ -50,6 +50,7 @@ bool Circle::isOverlapping(const Circle &c) const {
     return dist < radiusSum;
 }
 
-bool Circle::isOverlapping(const Shape& other) const {
-    return false; // placeholder value
+bool Circle::isOverlapping(const vec2& point) const {
+    float dist = distance(pos, point);
+    return dist < radius;
 }

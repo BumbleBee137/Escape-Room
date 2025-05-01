@@ -72,7 +72,7 @@ public:
     /// @brief Checks if two circles are overlapping
     /// @details This function is called in Engine's update function to check if any two circles are overlapping.
     bool isOverlapping(const Circle &c) const;
-    bool isOverlapping(const Shape& other) const;
+    bool isOverlapping(const vec2& point) const;
 };
 
 
