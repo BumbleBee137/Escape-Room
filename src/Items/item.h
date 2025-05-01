@@ -25,6 +25,8 @@ public:
 
     // Return true if overlaps with a point given
     virtual bool isOverlapping(const vec2& point) const;
+
+    virtual string text() const = 0;
 };
 
 #endif //ITEM_H

@@ -17,3 +17,4 @@ bool Item::isOverlapping(const vec2 &point) const {
         return s->isOverlapping(point);
     }
 }
+
