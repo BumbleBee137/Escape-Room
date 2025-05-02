@@ -13,6 +13,7 @@ Inventory::Inventory(Shader& shader) {
         boxes.push_back(make_unique<Rect>(shader, vec2(size + offsetX,size), vec2(size * 1.25,size * 1.25), color(.5, .5, .5, .5)));
         offsetX += 2 * size;
     }
+    items = {};
 }
 
 void Inventory::setUniformsAndDraw() const {
@@ -20,10 +21,23 @@ void Inventory::setUniformsAndDraw() const {
         r->setUniforms();
         r->draw();
     }
+    for (const shared_ptr<Hold>& h : items) {
+        h->setUniformsAndDraw();
+    }
 }
 
 string Inventory::atIndex(int i) {
     index = i;
     boxes[0]->setPos({size + 176 * i, size});
-    return "index" + to_string(index);
+    if (items.size() <= i) return "index" + to_string(index);
+    return items[i]->getText();
+}
+
+string Inventory::grab(shared_ptr<Hold> hold) {
+    if (items.size() >= 9) return "My inventory is full right now";
+    hold->setGrabbed(true);
+    hold->resize({50,50,});
+    hold->move(boxes[items.size()]->getPos());
+    items.push_back(hold);
+    return hold->getText();
 }

@@ -75,6 +75,8 @@ void Engine::initShapes() {
     door->pushShape(make_shared<Rect>(shapeShader, vec2(600, 200), vec2(500,1200), color(150/255.0, 75/255.0, 0, 1)));
     door->pushShape(make_shared<Circle>(shapeShader, vec2(750, 350), 3, color(1, 1, 1, 1)));
     inventory = make_unique<Inventory>(shapeShader);
+    square = make_shared<Hold>("Square", vec2(width/2, height/2));
+    square->pushShape(make_shared<Rect>(shapeShader, vec2{width/2, height/2}, vec2{50, 50}, color(1, 1, 1, 1)));
 
 }
 
@@ -190,6 +192,10 @@ void Engine::render() {
         }
         case north: {
             this->fontRenderer->renderText(message, width/2 - (12 * message.length()), height-50, projection, 1, vec3{1, 1, 1});
+            shapeShader.use();
+            if (!square->getGrabbed())
+                square->setUniformsAndDraw();
+            if (square->isOverlapping({MouseX, MouseY}) && mousePressedLastFrame) message = inventory->grab(square);
             break;
         }
     }

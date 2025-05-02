@@ -19,6 +19,7 @@ class Inventory {
 private:
     vector<unique_ptr<Rect>> boxes;
     int offsetX, size, index;
+    vector<shared_ptr<Hold>> items;
 
 
 public:
@@ -26,6 +27,7 @@ public:
 
     void setUniformsAndDraw() const;
     string atIndex(int i);
+    string grab(shared_ptr<Hold> hold);
 
 };
 

@@ -48,6 +48,7 @@ private:
     unique_ptr<Shape> triangleTest, circleTest;
     unique_ptr<Inventory> inventory;
     unique_ptr<Item> door;
+    shared_ptr<Hold> square;
 
     // Shaders
     Shader shapeShader;

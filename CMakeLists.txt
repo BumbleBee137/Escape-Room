@@ -110,6 +110,7 @@ add_executable(${PROJECT_NAME} ${PROJECT_SOURCES} ${PROJECT_HEADERS}
         src/Items/hold.h
         src/Items/inventory.h
         src/Items/inventory.cpp
+        src/Items/hold.cpp
 )
 # Include libraries
 target_link_libraries(${PROJECT_NAME} glfw glm freetype)
