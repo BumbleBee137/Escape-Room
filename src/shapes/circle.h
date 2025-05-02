@@ -13,7 +13,7 @@ private:
     /// @brief Number of x,y points to draw the circle
     const static int segments = 100;
 
-    /// @brief Radius of the circle (half of screen width
+    /// @brief Radius of the circle (half of  width
     float radius;
     /// @brief The x and y velocities of the circle
     vec2 velocity;
@@ -60,6 +60,8 @@ public:
     // --------------------------------------------------------
     // Overloaded functions
     // --------------------------------------------------------
+    void setSize(vec2 s);
+
     // Position/Movement Functions
     float getLeft() const override;
     float getRight() const override;
