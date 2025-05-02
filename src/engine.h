@@ -13,6 +13,7 @@
 #include "shapes/triangle.h"
 #include "shapes/circle.h"
 #include "items/item.h"
+#include "items/inventory.h"
 
 using std::vector, std::unique_ptr, std::make_unique, std::make_shared, glm::ortho, glm::mat4, glm::vec3, glm::vec4;
 
@@ -45,7 +46,7 @@ private:
 
     // Shapes
     unique_ptr<Shape> triangleTest, circleTest;
-    vector<unique_ptr<Shape>> inventory;
+    unique_ptr<Inventory> inventory;
     unique_ptr<Item> door;
 
     // Shaders
