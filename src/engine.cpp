@@ -68,14 +68,17 @@ void Engine::initShaders() {
 }
 
 void Engine::initShapes() {
-    // red spawn button centered in the top left corner
-    spawnButton = make_unique<Rect>(shapeShader, vec2{width/2,height/2}, vec2{100, 50}, color{1, 0, 0, 1});
     //testing that all shapes work correctly
     triangleTest = make_unique<Triangle>(shapeShader, vec2{width/2,height/2}, vec2{100, 50}, color{1, 0, 0, 1});
     circleTest = make_unique<Circle>(shapeShader, vec2{width/2,height/2}, vec2{10, 5}, color{1, 0, 0, 1});
     door = make_unique<Item>("This is a door");
     door->pushShape(make_shared<Rect>(shapeShader, vec2(600, 200), vec2(500,1200), color(.5, .5, .5, 1)));
     door->pushShape(make_shared<Circle>(shapeShader, vec2(750, 350), 3, color(1, 1, 1, 1)));
+    inventory.push_back(make_unique<Rect>(shapeShader, vec2(15,15), vec2(15,15), color(.5, .5, .5, 1)));
+    for (int i = 0; i < 9; i++) {
+        inventory.push_back(make_unique<Rect>(shapeShader, vec2(45,15), vec2(10,10), color(1, 1, 1, 1)));
+    }
+
 }
 
 void Engine::processInput() {
@@ -125,7 +128,6 @@ void Engine::processInput() {
 
     // Mouse position is inverted because the origin of the window is in the top left corner
     MouseY = height - MouseY; // Invert y-axis of mouse position
-    bool buttonOverlapsMouse = spawnButton->isOverlapping(vec2(MouseX, MouseY));
     bool mousePressed = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS;
 
 
@@ -173,7 +175,7 @@ void Engine::render() {
         }
         case east: {
             if (door->isOverlapping({MouseX, MouseY}) && mousePressedLastFrame) message = door->getText();
-            else this->fontRenderer->renderText(message, width/2 - (12 * message.length()), height - 50, projection, 1, vec3{1, 1, 1});
+            this->fontRenderer->renderText(message, width/2 - (12 * message.length()), height - 50, projection, 1, vec3{1, 1, 1});
             shapeShader.use();
             door->setUniformsAndDraw();
             break;

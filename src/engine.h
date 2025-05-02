@@ -44,8 +44,8 @@ private:
     unique_ptr<FontRenderer> fontRenderer;
 
     // Shapes
-    unique_ptr<Shape> spawnButton, triangleTest, circleTest;
-    vector<unique_ptr<Shape>> confetti;
+    unique_ptr<Shape> triangleTest, circleTest;
+    vector<unique_ptr<Shape>> inventory;
     unique_ptr<Item> door;
 
     // Shaders
