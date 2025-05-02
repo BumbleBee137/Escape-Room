@@ -155,11 +155,6 @@ void Engine::render() {
     // Render differently depending on screen
     switch (screen) {
         case west: {
-            // (12 * message.length()) is the offset to center text.
-            // 12 pixels is the width of each character scaled by 1.
-            // NOTE: This line changes the shader being used to the font shader.
-            //  If you want to draw shapes again after drawing text,
-            //  you'll need to call shapeShader.use() again first.
             this->fontRenderer->renderText(message, width/2 - (12 * message.length()), height-50, projection, 1, vec3{1, 1, 1});
             shapeShader.use();
             if (triangleTest->isOverlapping({MouseX, MouseY})) triangleTest->setColor(pressFill);
@@ -169,11 +164,6 @@ void Engine::render() {
             break;
         }
         case south: {
-            // (12 * message.length()) is the offset to center text.
-            // 12 pixels is the width of each character scaled by 1.
-            // NOTE: This line changes the shader being used to the font shader.
-            //  If you want to draw shapes again after drawing text,
-            //  you'll need to call shapeShader.use() again first.
             this->fontRenderer->renderText(message, width/2 - (12 * message.length()), height - 50, projection, 1, vec3{1, 1, 1});
             shapeShader.use();
             if (circleTest->isOverlapping({MouseX, MouseY})) circleTest->setColor(pressFill);
@@ -182,23 +172,13 @@ void Engine::render() {
             break;
         }
         case east: {
-            // (12 * message.length()) is the offset to center text.
-            // 12 pixels is the width of each character scaled by 1.
-            // NOTE: This line changes the shader being used to the font shader.
-            //  If you want to draw shapes again after drawing text,
-            //  you'll need to call shapeShader.use() again first.
-            this->fontRenderer->renderText(message, width/2 - (12 * message.length()), height - 50, projection, 1, vec3{1, 1, 1});
-            shapeShader.use();
             if (door->isOverlapping({MouseX, MouseY}) && mousePressedLastFrame) message = door->getText();
+            else this->fontRenderer->renderText(message, width/2 - (12 * message.length()), height - 50, projection, 1, vec3{1, 1, 1});
+            shapeShader.use();
             door->setUniformsAndDraw();
             break;
         }
         case north: {
-            // (12 * message.length()) is the offset to center text.
-            // 12 pixels is the width of each character scaled by 1.
-            // NOTE: This line changes the shader being used to the font shader.
-            //  If you want to draw shapes again after drawing text,
-            //  you'll need to call shapeShader.use() again first.
             this->fontRenderer->renderText(message, width/2 - (12 * message.length()), height-50, projection, 1, vec3{1, 1, 1});
             break;
         }
