@@ -10,23 +10,30 @@
 #include "../util/color.h"
 #include "glm/glm.hpp"
 #include <memory>
-using std::make_unique, std::unique_ptr, glm::vec2;
+using std::make_unique, std::shared_ptr, glm::vec2;
 
 class Item {
-private:
-    vector<unique_ptr<Shape>> shapes;
+protected:
+    vector<shared_ptr<Shape>> shapes;
+    string text;
 
 public:
     // Constructors
-    Item();
+    Item(string t);
 
     // Draw the item
     void setUniformsAndDraw() const;
 
     // Return true if overlaps with a point given
-    virtual bool isOverlapping(const vec2& point) const;
+    bool isOverlapping(const vec2& point) const;
 
-    virtual string text() const = 0;
+    string getText() const;
+    void setText(string t);
+
+    void pushShape(const std::shared_ptr<Shape> shape) ;
+    void clearShapes();
+
+
 };
 
 #endif //ITEM_H

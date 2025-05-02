@@ -73,6 +73,9 @@ void Engine::initShapes() {
     //testing that all shapes work correctly
     triangleTest = make_unique<Triangle>(shapeShader, vec2{width/2,height/2}, vec2{100, 50}, color{1, 0, 0, 1});
     circleTest = make_unique<Circle>(shapeShader, vec2{width/2,height/2}, vec2{10, 5}, color{1, 0, 0, 1});
+    door = make_unique<Item>("This is a door");
+    door->pushShape(make_shared<Rect>(shapeShader, vec2(400, 200), vec2(300,500), color(.5, .5, .5, 1)));
+    door->pushShape(make_shared<Circle>(shapeShader, vec2(500, 200), 2, color(1, 1, 1, 1)));
 }
 
 void Engine::processInput() {
@@ -120,7 +123,6 @@ void Engine::processInput() {
     }
 
 
-
     // Mouse position is inverted because the origin of the window is in the top left corner
     MouseY = height - MouseY; // Invert y-axis of mouse position
     bool buttonOverlapsMouse = spawnButton->isOverlapping(vec2(MouseX, MouseY));
@@ -159,7 +161,7 @@ void Engine::render() {
             // NOTE: This line changes the shader being used to the font shader.
             //  If you want to draw shapes again after drawing text,
             //  you'll need to call shapeShader.use() again first.
-            this->fontRenderer->renderText(message, width/2 - (12 * message.length()), height/2, projection, 1, vec3{1, 1, 1});
+            this->fontRenderer->renderText(message, width/2 - (12 * message.length()), height-30, projection, 1, vec3{1, 1, 1});
             shapeShader.use();
             if (triangleTest->isOverlapping({MouseX, MouseY})) triangleTest->setColor(pressFill);
             else triangleTest->setColor(originalFill);
@@ -174,7 +176,7 @@ void Engine::render() {
             // NOTE: This line changes the shader being used to the font shader.
             //  If you want to draw shapes again after drawing text,
             //  you'll need to call shapeShader.use() again first.
-            this->fontRenderer->renderText(message, width/2 - (12 * message.length()), height/2, projection, 1, vec3{1, 1, 1});
+            this->fontRenderer->renderText(message, width/2 - (12 * message.length()), height - 30, projection, 1, vec3{1, 1, 1});
             shapeShader.use();
             if (circleTest->isOverlapping({MouseX, MouseY})) circleTest->setColor(pressFill);
             circleTest->setUniforms();
@@ -188,7 +190,10 @@ void Engine::render() {
             // NOTE: This line changes the shader being used to the font shader.
             //  If you want to draw shapes again after drawing text,
             //  you'll need to call shapeShader.use() again first.
-            this->fontRenderer->renderText(message, width/2 - (12 * message.length()), height/2, projection, 1, vec3{1, 1, 1});
+            this->fontRenderer->renderText(message, width/2 - (12 * message.length()), height - 50, projection, 1, vec3{1, 1, 1});
+            if (door->isOverlapping({MouseX, MouseY}) && mousePressedLastFrame) this->fontRenderer->renderText(door->getText(), width/2 - (12 * door->getText().length()), height - 30, projection, 1, vec3{1, 1, 1});
+            shapeShader.use();
+            door->setUniformsAndDraw();
             break;
         }
         case north: {
@@ -198,7 +203,7 @@ void Engine::render() {
             // NOTE: This line changes the shader being used to the font shader.
             //  If you want to draw shapes again after drawing text,
             //  you'll need to call shapeShader.use() again first.
-            this->fontRenderer->renderText(message, width/2 - (12 * message.length()), height/2, projection, 1, vec3{1, 1, 1});
+            this->fontRenderer->renderText(message, width/2 - (12 * message.length()), height-30, projection, 1, vec3{1, 1, 1});
             break;
         }
     }

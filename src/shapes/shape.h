@@ -15,7 +15,7 @@ public:
     /// @param pos The position of the shape
     /// @param size The size of the shape
     /// @param color The color of the shape
-    Shape(Shader& shader, vec2 pos, glm::vec2 size, color color);
+    Shape(Shader& shader, vec2 pos, vec2 size, color color);
 
     /// @brief Copy constructor for Shape
     Shape(Shape const& other);

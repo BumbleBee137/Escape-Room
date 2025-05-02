@@ -12,8 +12,9 @@
 #include "shapes/shape.h"
 #include "shapes/triangle.h"
 #include "shapes/circle.h"
+#include "items/item.h"
 
-using std::vector, std::unique_ptr, std::make_unique, glm::ortho, glm::mat4, glm::vec3, glm::vec4;
+using std::vector, std::unique_ptr, std::make_unique, std::make_shared, glm::ortho, glm::mat4, glm::vec3, glm::vec4;
 
 /**
  * @brief The Engine class.
@@ -45,6 +46,7 @@ private:
     // Shapes
     unique_ptr<Shape> spawnButton, triangleTest, circleTest;
     vector<unique_ptr<Shape>> confetti;
+    unique_ptr<Item> door;
 
     // Shaders
     Shader shapeShader;
