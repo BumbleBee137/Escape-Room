@@ -26,7 +26,7 @@ private:
     GLFWwindow* window{};
 
     /// @brief The width and height of the window.
-    const unsigned int width = 800, height = 600; // Window dimensions
+    const unsigned int width = 1600, height = 1200; // Window dimensions
     /// @brief The projection matrix
     const glm::mat4 projection = glm::ortho(0.0f, (float)width, 0.0f, (float)height);
 
@@ -57,6 +57,8 @@ private:
 
     bool leftLastFrame = false;
     bool rightLastFrame = false;
+
+    string message = "Oh no I have to leave this room!";
 
     /// @note Call glCheckError() after every OpenGL call to check for errors.
     GLenum glCheckError_(const char *file, int line);
