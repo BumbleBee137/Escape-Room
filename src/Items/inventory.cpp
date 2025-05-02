@@ -3,6 +3,7 @@
 //
 
 #include "inventory.h"
+using namespace std;
 
 Inventory::Inventory(Shader& shader) {
     size = 88;
@@ -19,4 +20,10 @@ void Inventory::setUniformsAndDraw() const {
         r->setUniforms();
         r->draw();
     }
+}
+
+string Inventory::atIndex(int i) {
+    index = i;
+    boxes[0]->setPos({size + 176 * i, size});
+    return "index" + to_string(index);
 }

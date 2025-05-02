@@ -92,6 +92,17 @@ void Engine::processInput() {
     }
 
 
+    //checking for numbers
+    if (keys[GLFW_KEY_1]) message = inventory->atIndex(0);
+    if (keys[GLFW_KEY_2]) message = inventory->atIndex(1);
+    if (keys[GLFW_KEY_3]) message = inventory->atIndex(2);
+    if (keys[GLFW_KEY_4]) message = inventory->atIndex(3);
+    if (keys[GLFW_KEY_5]) message = inventory->atIndex(4);
+    if (keys[GLFW_KEY_6]) message = inventory->atIndex(5);
+    if (keys[GLFW_KEY_7]) message = inventory->atIndex(6);
+    if (keys[GLFW_KEY_8]) message = inventory->atIndex(7);
+    if (keys[GLFW_KEY_9]) message = inventory->atIndex(8);
+
     // Close window if escape key is pressed
     if (keys[GLFW_KEY_ESCAPE])
         glfwSetWindowShouldClose(window, true);

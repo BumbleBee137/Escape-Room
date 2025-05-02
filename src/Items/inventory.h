@@ -18,13 +18,14 @@ using std::make_unique, std::shared_ptr, std::unique_ptr, glm::vec2;
 class Inventory {
 private:
     vector<unique_ptr<Rect>> boxes;
-    int offsetX, size;
+    int offsetX, size, index;
 
 
 public:
     Inventory(Shader& shader);
 
     void setUniformsAndDraw() const;
+    string atIndex(int i);
 
 };
 
