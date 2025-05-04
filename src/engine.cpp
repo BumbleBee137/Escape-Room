@@ -209,7 +209,7 @@ void Engine::render() {
             shapeShader.use();
             if (!square->getGrabbed())
                 square->setUniformsAndDraw();
-            if (square->isOverlapping({MouseX, MouseY}) && mousePressedLastFrame) message = inventory->grab(square);
+            if (square->isOverlapping({MouseX, MouseY}) && click) message = inventory->grab(square);
             break;
         }
     }
