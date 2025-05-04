@@ -45,6 +45,8 @@ void Shape::setUniforms() const {
     model = translate(model, vec3(pos, 1.0f));
     // The size of the shape is scaled by the model matrix to make the shape larger or smaller.
     model = scale(model, vec3(size, 1.0f));
+    //rotate the model
+    model = glm::rotate(model, degrees, vec3(0.0f, 0.0f, 1.0f));
 
     // Set the model matrix and color uniform variables in the shader
     this->shader.setMatrix4("model", model);

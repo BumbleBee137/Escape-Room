@@ -80,6 +80,10 @@ public:
     void setPosX(float x);
     void setPosY(float y);
 
+    void rotate(float d) {
+        degrees += d;
+    }
+
     // Movement Setters (add/sub to current value)
     void move(vec2 offset);
     void moveX(float x);
@@ -139,6 +143,8 @@ protected:
 
     /// @brief The indices of the shape
     vector<unsigned int> indices;
+
+    float degrees;
 };
 
 #endif //GRAPHICS_SHAPE_H
