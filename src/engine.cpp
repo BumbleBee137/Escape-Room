@@ -92,6 +92,12 @@ void Engine::initShapes() {
     frame2->pushShape(make_shared<Rect>(shapeShader, vec2(1300, 500), vec2(200,200), color(150/255.0, 75/255.0, 0, 1)));
     frame2->pushShape(make_shared<Rect>(shapeShader, vec2(1300, 500), vec2(170,170), color(.5, .75, .75, 1)));
 
+    couch = make_unique<Item>("This looks comfy");
+    couch->pushShape(make_shared<Rect>(shapeShader, vec2(width/2, 200), vec2(800,200), color(255/255.0, 160/255.0, 122/255.0, 1))); //bottom cushion
+    couch->pushShape(make_shared<Rect>(shapeShader, vec2(width/2, 350), vec2(800,300), color(255/255.0, 138/255.0, 100/255.0, 1))); //back cushion
+    couch->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 400, 200), vec2(100,300), color(255/255.0, 160/255.0, 122/255.0, 1)));//right arm
+    couch->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 - 400, 200), vec2(100,300), color(255/255.0, 160/255.0, 122/255.0, 1)));//left arm
+    couch->pushShape(make_shared<Circle>(shapeShader, vec2(width/2+275,275), 6, color(1,.9,.9, 1)));
 
 
     //inventory objects
@@ -259,7 +265,8 @@ void Engine::render() {
         }
         case north: {
             //background
-
+            couch->setUniformsAndDraw();
+            if (couch->isOverlapping({MouseX, MouseY}) && click) message = couch->getText();
             //items
 
             //text
