@@ -48,7 +48,7 @@ private:
     // Shapes
     unique_ptr<Shape> triangleTest, circleTest;
     unique_ptr<Inventory> inventory;
-    unique_ptr<Item> door, wind;
+    unique_ptr<Item> door, wind, desk, frame1, frame2, couch, bookshelf;
     shared_ptr<Hold> square;
     unique_ptr<Move> curtains;
 

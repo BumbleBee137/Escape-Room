@@ -74,8 +74,8 @@ void Engine::initShapes() {
 
     //background objects
     door = make_unique<Item>("This is a door");
-    door->pushShape(make_shared<Rect>(shapeShader, vec2(600, 200), vec2(500,1200), color(150/255.0, 75/255.0, 0, 1)));
-    door->pushShape(make_shared<Circle>(shapeShader, vec2(750, 350), 3, color(1, 1, 1, 1)));
+    door->pushShape(make_shared<Rect>(shapeShader, vec2(500, 200), vec2(500,1200), color(150/255.0, 75/255.0, 0, 1)));
+    door->pushShape(make_shared<Circle>(shapeShader, vec2(650, 350), 3, color(1, 1, 1, 1)));
 
     wind = make_unique<Item>("What a pretty view");
     wind->pushShape(make_shared<Rect>(shapeShader, vec2(width/2, 800), vec2(500,500), color(229/255.0, 243/255.0, 253/255.0, 1)));
@@ -83,6 +83,16 @@ void Engine::initShapes() {
     wind->pushShape(make_shared<Rect>(shapeShader, vec2(width/2,800), vec2(500,10), color(1,1,1, 1)));
     wind->pushShape(make_shared<Rect>(shapeShader, vec2(width/2,550), vec2(500,30), color(1,1,1, 1)));
     wind->pushShape(make_shared<Rect>(shapeShader, vec2(width/2,1050), vec2(500,30), color(1,1,1, 1)));
+
+    frame1 = make_unique<Item>("What a lovely painting");
+    frame1->pushShape(make_shared<Rect>(shapeShader, vec2(1300, 800), vec2(200,200), color(150/255.0, 75/255.0, 0, 1)));
+    frame1->pushShape(make_shared<Rect>(shapeShader, vec2(1300, 800), vec2(170,170), color(1, .75, .75, 1)));
+
+    frame2 = make_unique<Item>("This reminds me of my childhood");
+    frame2->pushShape(make_shared<Rect>(shapeShader, vec2(1300, 500), vec2(200,200), color(150/255.0, 75/255.0, 0, 1)));
+    frame2->pushShape(make_shared<Rect>(shapeShader, vec2(1300, 500), vec2(170,170), color(.5, .75, .75, 1)));
+
+
 
     //inventory objects
     inventory = make_unique<Inventory>(shapeShader);
@@ -235,6 +245,11 @@ void Engine::render() {
                     inventory->remove();
                 }
             }
+
+            frame1->setUniformsAndDraw();
+            if (frame1->isOverlapping({MouseX, MouseY}) && click) message = frame1->getText();
+            frame2->setUniformsAndDraw();
+            if (frame2->isOverlapping({MouseX, MouseY}) && click) message = frame2->getText();
             //items
 
             //text
