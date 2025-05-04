@@ -95,15 +95,15 @@ void Engine::processInput() {
 
 
     //checking for numbers
-    if (keys[GLFW_KEY_1]) message = inventory->atIndex(0);
-    if (keys[GLFW_KEY_2]) message = inventory->atIndex(1);
-    if (keys[GLFW_KEY_3]) message = inventory->atIndex(2);
-    if (keys[GLFW_KEY_4]) message = inventory->atIndex(3);
-    if (keys[GLFW_KEY_5]) message = inventory->atIndex(4);
-    if (keys[GLFW_KEY_6]) message = inventory->atIndex(5);
-    if (keys[GLFW_KEY_7]) message = inventory->atIndex(6);
-    if (keys[GLFW_KEY_8]) message = inventory->atIndex(7);
-    if (keys[GLFW_KEY_9]) message = inventory->atIndex(8);
+    if (keys[GLFW_KEY_1]) message = inventory->select(0);
+    if (keys[GLFW_KEY_2]) message = inventory->select(1);
+    if (keys[GLFW_KEY_3]) message = inventory->select(2);
+    if (keys[GLFW_KEY_4]) message = inventory->select(3);
+    if (keys[GLFW_KEY_5]) message = inventory->select(4);
+    if (keys[GLFW_KEY_6]) message = inventory->select(5);
+    if (keys[GLFW_KEY_7]) message = inventory->select(6);
+    if (keys[GLFW_KEY_8]) message = inventory->select(7);
+    if (keys[GLFW_KEY_9]) message = inventory->select(8);
 
     // Close window if escape key is pressed
     if (keys[GLFW_KEY_ESCAPE])
@@ -184,7 +184,13 @@ void Engine::render() {
             break;
         }
         case east: {
-            if (door->isOverlapping({MouseX, MouseY}) && mousePressedLastFrame) message = door->getText();
+            if (door->isOverlapping({MouseX, MouseY}) && mousePressedLastFrame) {
+                if (inventory->current() != square) message = door->getText();
+                else {
+                    message = "You did it!";
+                    inventory->remove();
+                }
+            }
             this->fontRenderer->renderText(message, width/2 - (12 * message.length()), height - 50, projection, 1, vec3{1, 1, 1});
             shapeShader.use();
             door->setUniformsAndDraw();

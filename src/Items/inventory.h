@@ -26,8 +26,10 @@ public:
     Inventory(Shader& shader);
 
     void setUniformsAndDraw() const;
-    string atIndex(int i);
+    string select(int i);
+    shared_ptr<Hold> current();
     string grab(shared_ptr<Hold> hold);
+    void remove();
 
 };
 

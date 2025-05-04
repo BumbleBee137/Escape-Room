@@ -6,6 +6,7 @@
 using namespace std;
 
 Inventory::Inventory(Shader& shader) {
+    index = 0;
     size = 88;
     boxes.push_back(make_unique<Rect>(shader, vec2(size,size), vec2(size * 1.5,size * 1.5), color(1, 1, 1, 1)));
     offsetX = 0;
@@ -26,12 +27,18 @@ void Inventory::setUniformsAndDraw() const {
     }
 }
 
-string Inventory::atIndex(int i) {
+string Inventory::select(int i) {
     index = i;
     boxes[0]->setPos({size + 176 * i, size});
-    if (items.size() <= i) return "index" + to_string(index);
+    if (items.size() <= i) return "This slot is empty";
     return items[i]->getText();
 }
+
+shared_ptr<Hold> Inventory::current() {
+    if (items.size() > index) return items[index];
+    return nullptr;
+}
+
 
 string Inventory::grab(shared_ptr<Hold> hold) {
     if (items.size() >= 9) return "My inventory is full right now";
@@ -40,4 +47,8 @@ string Inventory::grab(shared_ptr<Hold> hold) {
     hold->move(boxes[items.size()]->getPos());
     items.push_back(hold);
     return hold->getText();
+}
+
+void Inventory::remove() {
+    if (items.size() > index) items.erase(items.begin() + index);
 }
