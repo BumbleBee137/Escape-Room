@@ -56,6 +56,8 @@ private:
 
     double MouseX, MouseY;
     bool mousePressedLastFrame = false;
+    bool click = false;
+    bool hold = false;
 
     bool leftLastFrame = false;
     bool rightLastFrame = false;

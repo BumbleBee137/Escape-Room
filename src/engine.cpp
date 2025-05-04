@@ -140,6 +140,14 @@ void Engine::processInput() {
     MouseY = height - MouseY; // Invert y-axis of mouse position
     bool mousePressed = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS;
 
+    if (mousePressed && !mousePressedLastFrame) {
+        click = true;
+        hold = false;
+    }else {
+        click = false;
+        hold = true;
+    }
+
 
     // Save mousePressed & left and right arrow for next frame
     mousePressedLastFrame = mousePressed;
@@ -184,7 +192,7 @@ void Engine::render() {
             break;
         }
         case east: {
-            if (door->isOverlapping({MouseX, MouseY}) && mousePressedLastFrame) {
+            if (door->isOverlapping({MouseX, MouseY}) && click) {
                 if (inventory->current() != square) message = door->getText();
                 else {
                     message = "You did it!";
