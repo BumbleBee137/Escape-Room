@@ -68,9 +68,6 @@ void Engine::initShaders() {
 }
 
 void Engine::initShapes() {
-    //testing that all shapes work correctly
-    triangleTest = make_unique<Triangle>(shapeShader, vec2{width/2,height/2}, vec2{100, 50}, color{1, 0, 0, 1});
-    circleTest = make_unique<Circle>(shapeShader, vec2{width/2,height/2}, vec2{10, 5}, color{1, 0, 0, 1});
 
     //background objects
     door = make_unique<Item>("This is a door");
@@ -78,11 +75,11 @@ void Engine::initShapes() {
     door->pushShape(make_shared<Circle>(shapeShader, vec2(650, 350), 3, color(1, 1, 1, 1)));
 
     wind = make_unique<Item>("What a pretty view");
-    wind->pushShape(make_shared<Rect>(shapeShader, vec2(width/2, 800), vec2(500,500), color(229/255.0, 243/255.0, 253/255.0, 1)));
-    wind->pushShape(make_shared<Rect>(shapeShader, vec2(width/2,800), vec2(10,500), color(1,1, 1, 1)));
-    wind->pushShape(make_shared<Rect>(shapeShader, vec2(width/2,800), vec2(500,10), color(1,1,1, 1)));
-    wind->pushShape(make_shared<Rect>(shapeShader, vec2(width/2,550), vec2(500,30), color(1,1,1, 1)));
-    wind->pushShape(make_shared<Rect>(shapeShader, vec2(width/2,1050), vec2(500,30), color(1,1,1, 1)));
+    wind->pushShape(make_shared<Rect>(shapeShader, vec2(width/2, 600), vec2(500,500), color(229/255.0, 243/255.0, 253/255.0, 1)));
+    wind->pushShape(make_shared<Rect>(shapeShader, vec2(width/2,600), vec2(10,500), color(1,1, 1, 1)));
+    wind->pushShape(make_shared<Rect>(shapeShader, vec2(width/2,600), vec2(500,10), color(1,1,1, 1)));
+    wind->pushShape(make_shared<Rect>(shapeShader, vec2(width/2,350), vec2(500,30), color(1,1,1, 1)));
+    wind->pushShape(make_shared<Rect>(shapeShader, vec2(width/2,850), vec2(500,30), color(1,1,1, 1)));
 
     frame1 = make_unique<Item>("What a lovely painting");
     frame1->pushShape(make_shared<Rect>(shapeShader, vec2(1300, 800), vec2(200,200), color(150/255.0, 75/255.0, 0, 1)));
@@ -93,11 +90,14 @@ void Engine::initShapes() {
     frame2->pushShape(make_shared<Rect>(shapeShader, vec2(1300, 500), vec2(170,170), color(.5, .75, .75, 1)));
 
     couch = make_unique<Item>("This looks comfy");
-    couch->pushShape(make_shared<Rect>(shapeShader, vec2(width/2, 200), vec2(800,200), color(255/255.0, 160/255.0, 122/255.0, 1))); //bottom cushion
-    couch->pushShape(make_shared<Rect>(shapeShader, vec2(width/2, 350), vec2(800,300), color(255/255.0, 138/255.0, 100/255.0, 1))); //back cushion
-    couch->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 400, 200), vec2(100,300), color(255/255.0, 160/255.0, 122/255.0, 1)));//right arm
-    couch->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 - 400, 200), vec2(100,300), color(255/255.0, 160/255.0, 122/255.0, 1)));//left arm
-    couch->pushShape(make_shared<Circle>(shapeShader, vec2(width/2+275,275), 6, color(1,.9,.9, 1)));
+    couch->pushShape(make_shared<Rect>(shapeShader, vec2(width/2, 150), vec2(800,200), color(255/255.0, 160/255.0, 122/255.0, 1))); //bottom cushion
+    couch->pushShape(make_shared<Rect>(shapeShader, vec2(width/2, 300), vec2(800,300), color(255/255.0, 138/255.0, 100/255.0, 1))); //back cushion
+    couch->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 400, 150), vec2(100,300), color(255/255.0, 160/255.0, 122/255.0, 1)));//right arm
+    couch->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 - 400, 150), vec2(100,300), color(255/255.0, 160/255.0, 122/255.0, 1)));//left arm
+    couch->pushShape(make_shared<Circle>(shapeShader, vec2(width/2+275,225), 6, color(1,.9,.9, 1)));
+
+    bookshelf = make_unique<Item>("I don't feel like reading");
+    bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2, height/2 - 100), vec2(600,1000), color(150/255.0, 75/255.0, 0, 1)));
 
 
     //inventory objects
@@ -107,10 +107,11 @@ void Engine::initShapes() {
 
     //moveable objects
     curtains = make_unique<Move>("I've already opened these", vec2(0,0));
-    curtains->pushShape(make_shared<Rect>(shapeShader, vec2(width/2, 1080),vec2(500,10), color(0,0,0,1)));
-    curtains->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 -300, 785),vec2(200,600), color(.5,0,0,1)));
-    curtains->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 +300, 785),vec2(200,600), color(.5,0,0,1)));
-    curtains->pushShape(make_shared<Rect>(shapeShader, vec2(width/2, 785),vec2(400,600), color(.5,0,0,1)));
+    curtains->pushShape(make_shared<Rect>(shapeShader, vec2(width/2, 880),vec2(500,10), color(0,0,0,1)));
+    curtains->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 -300, 525),vec2(200,720), color(.5,0,0,1)));
+    curtains->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 +300, 525),vec2(200,720), color(.5,0,0,1)));
+    curtains->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 125, 525),vec2(200,720), color(.5,0,0,1)));
+    curtains->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 - 125, 525),vec2(200,720), color(.5,0,0,1)));
 }
 
 void Engine::processInput() {
@@ -223,6 +224,7 @@ void Engine::render() {
                 else {
                     message = "Let's get some light in here";
                     curtains->pop();
+                    curtains->pop();
                     curtains->click();
                 }
             }
@@ -232,11 +234,10 @@ void Engine::render() {
         }
         case south: {
             //background
+            bookshelf->setUniformsAndDraw();
+            if (bookshelf->isOverlapping({MouseX, MouseY}) && click) message = bookshelf->getText();
 
             //items
-            if (circleTest->isOverlapping({MouseX, MouseY})) circleTest->setColor(pressFill);
-            circleTest->setUniforms();
-            circleTest->draw();
 
             //text
             this->fontRenderer->renderText(message, width/2 - (12 * message.length()), height - 50, projection, 1, vec3{1, 1, 1});

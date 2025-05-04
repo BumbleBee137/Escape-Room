@@ -28,7 +28,7 @@ private:
     GLFWwindow* window{};
 
     /// @brief The width and height of the window.
-    const unsigned int width = 1600, height = 1200; // Window dimensions
+    const unsigned int width = 1600, height = 1000; // Window dimensions
     /// @brief The projection matrix
     const glm::mat4 projection = glm::ortho(0.0f, (float)width, 0.0f, (float)height);
 
@@ -45,8 +45,7 @@ private:
     /// @details Initialized in initShaders()
     unique_ptr<FontRenderer> fontRenderer;
 
-    // Shapes
-    unique_ptr<Shape> triangleTest, circleTest;
+    // Items
     unique_ptr<Inventory> inventory;
     unique_ptr<Item> door, wind, desk, frame1, frame2, couch, bookshelf;
     shared_ptr<Hold> square;
