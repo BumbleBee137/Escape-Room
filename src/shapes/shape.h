@@ -144,7 +144,7 @@ protected:
     /// @brief The indices of the shape
     vector<unsigned int> indices;
 
-    float degrees;
+    float degrees = 0;
 };
 
 #endif //GRAPHICS_SHAPE_H

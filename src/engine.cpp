@@ -90,7 +90,7 @@ void Engine::initShapes() {
     square->pushShape(make_shared<Rect>(shapeShader, vec2{width/2, height/2}, vec2{50, 50}, color(1, 1, 1, 1)));
 
     //moveable objects
-    curtains = make_unique<Item>("I've already opened these");
+    curtains = make_unique<Move>("I've already opened these", vec2(0,0));
     curtains->pushShape(make_shared<Rect>(shapeShader, vec2(width/2, 1080),vec2(500,10), color(0,0,0,1)));
     curtains->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 -300, 785),vec2(200,600), color(.5,0,0,1)));
     curtains->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 +300, 785),vec2(200,600), color(.5,0,0,1)));
@@ -203,8 +203,11 @@ void Engine::render() {
 
             curtains->setUniformsAndDraw();
             if (curtains->isOverlapping({MouseX, MouseY}) && click) {
-                if (curtains->pop(3)) message = "Let's get some light in here";
-                else message = "I prefer these open";
+                if (curtains->clicked()) message = "Let's get some light in here";
+                else {
+                    message = "I prefer these open";
+                    curtains->pop();
+                }
             }
             //text
             this->fontRenderer->renderText(message, width/2 - (12 * message.length()), height-50, projection, 1, vec3{1, 1, 1});

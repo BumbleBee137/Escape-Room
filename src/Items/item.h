@@ -31,7 +31,6 @@ public:
     void setText(string t);
 
     void pushShape(const std::shared_ptr<Shape> shape);
-    bool pop(int index);
     void clearShapes();
 
 
