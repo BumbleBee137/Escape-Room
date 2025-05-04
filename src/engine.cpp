@@ -1,6 +1,6 @@
 #include "engine.h"
 
-enum state {north, east, west, south};
+enum state {north, east, west, south, win};
 state screen;
 
 // Colors
@@ -71,13 +71,30 @@ void Engine::initShapes() {
     //testing that all shapes work correctly
     triangleTest = make_unique<Triangle>(shapeShader, vec2{width/2,height/2}, vec2{100, 50}, color{1, 0, 0, 1});
     circleTest = make_unique<Circle>(shapeShader, vec2{width/2,height/2}, vec2{10, 5}, color{1, 0, 0, 1});
+
+    //background objects
     door = make_unique<Item>("This is a door");
     door->pushShape(make_shared<Rect>(shapeShader, vec2(600, 200), vec2(500,1200), color(150/255.0, 75/255.0, 0, 1)));
     door->pushShape(make_shared<Circle>(shapeShader, vec2(750, 350), 3, color(1, 1, 1, 1)));
+
+    wind = make_unique<Item>("What a pretty view");
+    wind->pushShape(make_shared<Rect>(shapeShader, vec2(width/2, 800), vec2(500,500), color(229/255.0, 243/255.0, 253/255.0, 1)));
+    wind->pushShape(make_shared<Rect>(shapeShader, vec2(width/2,800), vec2(10,500), color(1,1, 1, 1)));
+    wind->pushShape(make_shared<Rect>(shapeShader, vec2(width/2,800), vec2(500,10), color(1,1,1, 1)));
+    wind->pushShape(make_shared<Rect>(shapeShader, vec2(width/2,550), vec2(500,30), color(1,1,1, 1)));
+    wind->pushShape(make_shared<Rect>(shapeShader, vec2(width/2,1050), vec2(500,30), color(1,1,1, 1)));
+
+    //inventory objects
     inventory = make_unique<Inventory>(shapeShader);
     square = make_shared<Hold>("Square", vec2(width/2, height/2));
     square->pushShape(make_shared<Rect>(shapeShader, vec2{width/2, height/2}, vec2{50, 50}, color(1, 1, 1, 1)));
 
+    //moveable objects
+    curtains = make_unique<Item>("I've already opened these");
+    curtains->pushShape(make_shared<Rect>(shapeShader, vec2(width/2, 1080),vec2(500,10), color(0,0,0,1)));
+    curtains->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 -300, 785),vec2(200,600), color(.5,0,0,1)));
+    curtains->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 +300, 785),vec2(200,600), color(.5,0,0,1)));
+    curtains->pushShape(make_shared<Rect>(shapeShader, vec2(width/2, 785),vec2(400,600), color(.5,0,0,1)));
 }
 
 void Engine::processInput() {
@@ -175,47 +192,67 @@ void Engine::render() {
     // Render differently depending on screen
     switch (screen) {
         case west: {
-            this->fontRenderer->renderText(message, width/2 - (12 * message.length()), height-50, projection, 1, vec3{1, 1, 1});
-            shapeShader.use();
-            if (triangleTest->isOverlapping({MouseX, MouseY})) triangleTest->setColor(pressFill);
-            else triangleTest->setColor(originalFill);
-            triangleTest->setUniforms();
-            triangleTest->draw();
-            break;
-        }
-        case south: {
-            this->fontRenderer->renderText(message, width/2 - (12 * message.length()), height - 50, projection, 1, vec3{1, 1, 1});
-            shapeShader.use();
-            if (circleTest->isOverlapping({MouseX, MouseY})) circleTest->setColor(pressFill);
-            circleTest->setUniforms();
-            circleTest->draw();
-            break;
-        }
-        case east: {
-            if (door->isOverlapping({MouseX, MouseY}) && click) {
-                if (inventory->current() != square) message = door->getText();
-                else {
-                    message = "You did it!";
-                    inventory->remove();
-                }
-            }
-            this->fontRenderer->renderText(message, width/2 - (12 * message.length()), height - 50, projection, 1, vec3{1, 1, 1});
-            shapeShader.use();
-            door->setUniformsAndDraw();
-            break;
-        }
-        case north: {
-            this->fontRenderer->renderText(message, width/2 - (12 * message.length()), height-50, projection, 1, vec3{1, 1, 1});
-            shapeShader.use();
+            //background
+            wind->setUniformsAndDraw();
+            if (wind->isOverlapping({MouseX, MouseY}) && click) message = "What a nice view";
+
+            //items
             if (!square->getGrabbed())
                 square->setUniformsAndDraw();
             if (square->isOverlapping({MouseX, MouseY}) && click) message = inventory->grab(square);
+
+            curtains->setUniformsAndDraw();
+            if (curtains->isOverlapping({MouseX, MouseY}) && click) {
+                if (curtains->pop(3)) message = "Let's get some light in here";
+                else message = "I prefer these open";
+            }
+            //text
+            this->fontRenderer->renderText(message, width/2 - (12 * message.length()), height-50, projection, 1, vec3{1, 1, 1});
             break;
+        }
+        case south: {
+            //background
+
+            //items
+            if (circleTest->isOverlapping({MouseX, MouseY})) circleTest->setColor(pressFill);
+            circleTest->setUniforms();
+            circleTest->draw();
+
+            //text
+            this->fontRenderer->renderText(message, width/2 - (12 * message.length()), height - 50, projection, 1, vec3{1, 1, 1});
+            break;
+        }
+        case east: {
+            //background
+            door->setUniformsAndDraw();
+            if (door->isOverlapping({MouseX, MouseY}) && click) {
+                if (inventory->current() != square) message = door->getText();
+                else {
+                    screen = win;
+                    inventory->remove();
+                }
+            }
+            //items
+
+            //text
+            this->fontRenderer->renderText(message, width/2 - (12 * message.length()), height - 50, projection, 1, vec3{1, 1, 1});
+            break;
+        }
+        case north: {
+            //background
+
+            //items
+
+            //text
+            this->fontRenderer->renderText(message, width/2 - (12 * message.length()), height-50, projection, 1, vec3{1, 1, 1});
+            break;
+        }
+        case win: {
+            this->fontRenderer->renderText("You escaped!", width/2 - (48 * message.length()), height/2, projection, 2, vec3{1, 1, 1});
         }
     }
     shapeShader.use();
-    inventory->setUniformsAndDraw();
-
+    if (screen != win) inventory->setUniformsAndDraw();
     glfwSwapBuffers(window);
 }
 

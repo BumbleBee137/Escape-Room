@@ -31,6 +31,13 @@ void Item::setText(string t) {
 void Item::pushShape(const shared_ptr<Shape> shape) {
     shapes.push_back(shape);
 }
+
+bool Item::pop(int i) {
+    if (shapes.size() != i + 1) return false;
+    shapes.erase(shapes.end() - 1);
+    return true;
+}
+
 void Item::clearShapes() {
     shapes.clear();
 }
