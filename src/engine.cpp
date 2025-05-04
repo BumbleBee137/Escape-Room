@@ -213,10 +213,11 @@ void Engine::render() {
 
             curtains->setUniformsAndDraw();
             if (curtains->isOverlapping({MouseX, MouseY}) && click) {
-                if (curtains->clicked()) message = "Let's get some light in here";
+                if (curtains->clicked()) message = "I prefer these open";
                 else {
-                    message = "I prefer these open";
+                    message = "Let's get some light in here";
                     curtains->pop();
+                    curtains->click();
                 }
             }
             //text
