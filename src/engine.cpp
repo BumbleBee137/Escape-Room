@@ -97,8 +97,15 @@ void Engine::initShapes() {
     couch->pushShape(make_shared<Circle>(shapeShader, vec2(width/2+275,225), 6, color(1,.9,.9, 1)));
 
     bookshelf = make_unique<Item>("I don't feel like reading");
-    bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2, height/2 - 100), vec2(600,1000), color(150/255.0, 75/255.0, 0, 1)));
-
+    bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2, height/2 - 100), vec2(600,1000), color(150/255.0, 75/255.0, 0, 1))); //back
+    bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2, height/2 + 400), vec2(600,20), color(101/255.0, 67/255.0, 33/255.0, 1)));//top
+    bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2, height/2 - 500), vec2(600,20), color(101/255.0, 67/255.0, 33/255.0, 1)));//bottom
+    bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2, height/2 + 200), vec2(600,20), color(101/255.0, 67/255.0, 33/255.0, 1)));//shelf
+    bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2, height/2), vec2(600,20), color(101/255.0, 67/255.0, 33/255.0, 1)));//shelf
+    bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2, height/2 - 200), vec2(600,20), color(101/255.0, 67/255.0, 33/255.0, 1)));//shelf
+    bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2, height/2 + 200), vec2(600,20), color(101/255.0, 67/255.0, 33/255.0, 1)));//shelf
+    bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 300, height/2 - 100), vec2(20,1005), color(101/255.0, 67/255.0, 33/255.0, 1)));//side
+    bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 - 300, height/2 - 100), vec2(20,1005), color(101/255.0, 67/255.0, 33/255.0, 1)));//side
 
     //inventory objects
     inventory = make_unique<Inventory>(shapeShader);
