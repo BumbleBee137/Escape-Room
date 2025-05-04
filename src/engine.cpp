@@ -267,7 +267,7 @@ void Engine::render() {
             break;
         }
         case win: {
-            this->fontRenderer->renderText("You escaped!", width/2 - (48 * message.length()), height/2, projection, 2, vec3{1, 1, 1});
+            this->fontRenderer->renderText("You escaped!", width/2 - 264, height/2, projection, 2, vec3{1, 1, 1});
         }
     }
     shapeShader.use();
