@@ -352,7 +352,7 @@ void Engine::render() {
             for (shared_ptr<Hold> b : stack) {
                 if (b != nullptr) {
                     b->setUniformsAndDraw();
-                    if (b->isOverlapping({MouseX, MouseY}) && click) message = inventory->grab(b);
+                    if (b->isOverlapping({MouseX, MouseY}) && click && !b->getGrabbed()) message = inventory->grab(b);
                 }
             }
             //clicking on hint - should drop the book
@@ -362,9 +362,8 @@ void Engine::render() {
                         message = "Well now they're out of order";
                         inventory->remove();
                         book1->move(vec2(h->getPos().x, book1->getPos().y));
-                        stack.push_back(book1);
+                        if (stack.size() <= 5) stack.push_back(book1);
                         book1->setUniformsAndDraw();
-                        inventory->remove();
                         break;
                     }
                     else message = "There's a book missing";
