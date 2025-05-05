@@ -145,6 +145,9 @@ void Engine::initShapes() {
     book = make_unique<Hold>("A book", vec2(0,0));
     book->pushShape(make_shared<Rect>(shapeShader, vec2(0,0), vec2(50,20), color(0,0, 1, 1)));
 
+    paper = make_unique<Hold>("This paper is blank", vec2(0,0));
+    paper->pushShape(make_shared<Rect>(shapeShader, vec2(0,0), vec2(50,20), color(1,1, 1, 1)));
+
 
     //moveable objects
     curtains = make_unique<Move>("I've already opened these");
@@ -307,8 +310,9 @@ void Engine::render() {
             if (bookshelf->isOverlapping({MouseX, MouseY}) && click) {
                 if (inventory->current() != book) message = bookshelf->getText();
                 else {
-                    message = "This goes here";
                     inventory->remove();
+                    message = "Ooh a page fell out";
+                    inventory->grab(paper);
                 }
             }
 
@@ -398,7 +402,13 @@ void Engine::render() {
             }
             candle->setUniformsAndDraw();
             if (candle->isOverlapping({MouseX, MouseY}) && click) {
-                if (candle->clicked()) message = candle->getText();
+                if (candle->clicked()) {
+                    if (inventory->current() != paper) message = candle->getText();
+                    else {
+                        message = "Ooh a secret message";
+                        paper->setText("'fish'");
+                    }
+                }
                 else if (inventory->current() == lighter) {
                     candle->click();
                     candle->pushShape(make_shared<Triangle>(shapeShader, vec2(1350,525),vec2(25,50),color(1,1,0,1)));
@@ -409,6 +419,8 @@ void Engine::render() {
                     message = "It's a candle";
                 }
             }
+
+
 
             //text
             this->fontRenderer->renderText(message, width/2 - (12 * message.length()), height-50, projection, 1, vec3{1, 1, 1});
