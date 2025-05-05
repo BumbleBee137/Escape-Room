@@ -20,6 +20,12 @@ void Hold::move(vec2 p) {
     }
 }
 
+void Hold::rotate(float angle) {
+    for (const shared_ptr<Shape>& s : shapes) {
+        s->rotate(angle);
+    }
+}
+
 void Hold::setGrabbed(bool tf) {
     grabbed = tf;
 }

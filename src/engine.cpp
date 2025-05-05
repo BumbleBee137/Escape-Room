@@ -128,8 +128,6 @@ void Engine::initShapes() {
     table->pushShape(make_shared<Rect>(shapeShader, vec2(1300, 350), vec2(300,50), color(150/255.0, 75/255.0, 0, 1)));
     table->pushShape(make_shared<Rect>(shapeShader, vec2(1175, 150), vec2(50,400), color(150/255.0, 75/255.0, 0, 1)));
     table->pushShape(make_shared<Rect>(shapeShader, vec2(1425, 150), vec2(50,400), color(150/255.0, 75/255.0, 0, 1)));
-
-
     //inventory objects
     inventory = make_unique<Inventory>(shapeShader);
     square = make_shared<Hold>("Square", vec2(width/2, height/2));
@@ -137,6 +135,9 @@ void Engine::initShapes() {
 
     treat = make_unique<Hold>("A cat treat", vec2(width/2 + 100, height/2 - 130));
     treat->pushShape(make_shared<Rect>(shapeShader, vec2{width/2 + 100, height/2 - 130}, vec2{10, 10}, color(.5, .25, 0, 1)));
+
+    drawerKey = make_unique<Hold>("A gold key", vec2(1080,575));
+    drawerKey->pushShape(make_shared<Rect>(shapeShader, vec2(1080, 575), vec2(50,20), color(1,1, 0, 1)));
 
     //moveable objects
     curtains = make_unique<Move>("I've already opened these");
@@ -275,6 +276,10 @@ void Engine::render() {
                 treat->setUniformsAndDraw();
             if (treat->isOverlapping({MouseX, MouseY}) && click) message = inventory->grab(treat);
 
+            if (!square->getGrabbed())
+                square->setUniformsAndDraw();
+            if (square->isOverlapping({MouseX, MouseY}) && click) message = inventory->grab(square);
+
             curtains->setUniformsAndDraw();
             if (curtains->isOverlapping({MouseX, MouseY}) && click) {
                 if (curtains->clicked()) message = "I prefer these open";
@@ -304,7 +309,8 @@ void Engine::render() {
             //background
             door->setUniformsAndDraw();
             if (door->isOverlapping({MouseX, MouseY}) && click) {
-                if (inventory->current() != square) message = door->getText();
+                if (inventory->current() == drawerKey) message = "This is the wrong key";
+                else if (inventory->current() != square) message = door->getText();
                 else {
                     screen = win;
                     inventory->remove();
@@ -316,7 +322,12 @@ void Engine::render() {
             frame2->setUniformsAndDraw();
             if (frame2->isOverlapping({MouseX, MouseY}) && click) message = frame2->getText();
             //items
+            if (!drawerKey->getGrabbed()) drawerKey->setUniformsAndDraw();
             frame->setUniformsAndDraw();
+            if (drawerKey->isOverlapping({MouseX, MouseY}) && click && !frame->isOverlapping({MouseX, MouseY})) {
+                message = inventory->grab(drawerKey);
+
+            }
             if (frame->isOverlapping({MouseX, MouseY}) && click) {
                 if (frame->clicked()) message = frame->getText();
                 else {
@@ -325,6 +336,7 @@ void Engine::render() {
                     frame->click();
                 }
             }
+
 
             //text
             this->fontRenderer->renderText(message, width/2 - (12 * message.length()), height - 50, projection, 1, vec3{1, 1, 1});
@@ -357,11 +369,13 @@ void Engine::render() {
             drawer->setUniformsAndDraw();
             if (drawer->isOverlapping({MouseX, MouseY}) && click) {
                 if (drawer->clicked()) message = drawer->getText();
-                else {
-                    message = "Hmm it's locked";
+                else if (inventory->current() == drawerKey){
+                    message = "Yay this key works";
                     drawer->click();
                     drawer->resize(1.25);
+                    inventory->remove();
                 }
+                else message = "Hmm it's locked. I should find a key";
             }
             candle->setUniformsAndDraw();
             if (candle->isOverlapping({MouseX, MouseY}) && click) {

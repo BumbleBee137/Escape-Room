@@ -18,6 +18,7 @@ public:
 
     void resize(vec2 size);
     void move(vec2 p);
+    void rotate(float angle);
 
     void setGrabbed(bool tf);
     bool getGrabbed();

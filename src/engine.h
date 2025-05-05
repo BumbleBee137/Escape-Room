@@ -48,7 +48,7 @@ private:
     // Items
     unique_ptr<Inventory> inventory;
     unique_ptr<Item> door, wind, table, frame1, frame2, couch, bookshelf;
-    shared_ptr<Hold> square, key, lighter, book, treat, bag;
+    shared_ptr<Hold> square, drawerKey, lighter, book, treat, bag, paper, catKey;
     unique_ptr<Move> curtains, frame, candle, cat, cushion, drawer;
     //hard puzzles to add: safe, books
 

@@ -43,9 +43,10 @@ shared_ptr<Hold> Inventory::current() {
 string Inventory::grab(shared_ptr<Hold> hold) {
     if (items.size() >= 9) return "My inventory is full right now";
     hold->setGrabbed(true);
-    hold->resize({50,50,});
-    hold->move(boxes[items.size()]->getPos());
+    hold->resize({50,50});
+    hold->move(boxes[items.size() + 1]->getPos());
     items.push_back(hold);
+    cout << items.size()<< endl;
     return hold->getText();
 }
 
