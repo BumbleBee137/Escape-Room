@@ -47,9 +47,10 @@ private:
 
     // Items
     unique_ptr<Inventory> inventory;
-    unique_ptr<Item> door, wind, desk, frame1, frame2, couch, bookshelf;
-    shared_ptr<Hold> square;
-    unique_ptr<Move> curtains;
+    unique_ptr<Item> door, wind, table, frame1, frame2, couch, bookshelf;
+    shared_ptr<Hold> square, key, lighter, book, treat, bag;
+    unique_ptr<Move> curtains, frame, candle, cat, cushion, drawer;
+    //hard puzzles to add: safe, books
 
     // Shaders
     Shader shapeShader;
