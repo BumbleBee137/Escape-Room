@@ -142,6 +142,9 @@ void Engine::initShapes() {
     lighter = make_unique<Hold>("A lighter", vec2(width/2-520,160));
     lighter->pushShape(make_shared<Rect>(shapeShader, vec2(width/2-520,160), vec2(50,20), color(0,0, 0, 1)));
 
+    book = make_unique<Hold>("A book", vec2(0,0));
+    book->pushShape(make_shared<Rect>(shapeShader, vec2(0,0), vec2(50,20), color(0,0, 1, 1)));
+
 
     //moveable objects
     curtains = make_unique<Move>("I've already opened these");
@@ -301,7 +304,13 @@ void Engine::render() {
         case south: {
             //background
             bookshelf->setUniformsAndDraw();
-            if (bookshelf->isOverlapping({MouseX, MouseY}) && click) message = bookshelf->getText();
+            if (bookshelf->isOverlapping({MouseX, MouseY}) && click) {
+                if (inventory->current() != book) message = bookshelf->getText();
+                else {
+                    message = "This goes here";
+                    inventory->remove();
+                }
+            }
 
             //items
 
@@ -377,7 +386,8 @@ void Engine::render() {
 
             drawer->setUniformsAndDraw();
             if (drawer->isOverlapping({MouseX, MouseY}) && click) {
-                if (drawer->clicked()) message = drawer->getText();
+                if (drawer->clicked() && book->getGrabbed()) message = drawer->getText();
+                else if (drawer->clicked()) message = inventory->grab(book);
                 else if (inventory->current() == drawerKey){
                     message = "Yay this key works";
                     drawer->click();
