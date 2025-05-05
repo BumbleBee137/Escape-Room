@@ -27,6 +27,7 @@ public:
 
     /// @brief Binds the VAO and calls the virtual draw function
     void draw() const override;
+    void setSize(float f) override;
 
     float getLeft() const override;
     float getRight() const override;

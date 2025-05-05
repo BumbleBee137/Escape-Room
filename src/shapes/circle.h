@@ -61,6 +61,7 @@ public:
     // Overloaded functions
     // --------------------------------------------------------
     void setSize(vec2 s);
+    void setSize(float f) override;
 
     // Position/Movement Functions
     float getLeft() const override;

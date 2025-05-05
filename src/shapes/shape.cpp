@@ -77,6 +77,9 @@ void Shape::setBlue(float b)     { color.blue = b; }
 void Shape::setOpacity(float a)  { color.alpha = a; }
 
 void Shape::setSize(vec2 size) { this->size = size; }
+void Shape::setSize(float f) {
+    size = size * f;
+}
 void Shape::setSizeX(float x)  { size.x = x; }
 void Shape::setSizeY(float y)  { size.y = y; }
 

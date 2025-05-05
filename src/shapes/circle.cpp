@@ -36,8 +36,13 @@ void Circle::setRadius(float radius) {
 }
 
 void Circle::setSize(vec2 s) {
-    size = s;
-    radius = size.x/2.0;
+    radius = s.x/10.0;
+
+}
+
+void Circle::setSize(float f) {
+    radius *= f;
+    size = vec2(radius * 2, radius * 2);
 }
 
 float Circle::getRadius() const { return radius; }

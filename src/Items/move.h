@@ -13,7 +13,7 @@ private:
 public:
     Move(string t);
 
-    void resize(vec2 size);
+    void resize(float size);
     void move(vec2 p);
     void rotate(float angle);
     void pop();

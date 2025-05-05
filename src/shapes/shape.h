@@ -91,6 +91,7 @@ public:
 
     // Size
     void setSize(vec2 size);
+    virtual void setSize(float f);
     void setSizeX(float x);
     void setSizeY(float y);
 

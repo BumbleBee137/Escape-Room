@@ -152,6 +152,11 @@ void Engine::initShapes() {
     frame->pushShape(make_shared<Rect>(shapeShader, vec2(1000, 650), vec2(170,170), color(.5, .75, .5, 1)));
     frame->rotate(30);
 
+    drawer = make_unique<Move>("It's empty now");
+    drawer->pushShape(make_shared<Rect>(shapeShader, vec2(1300, 275), vec2(200,100), color(101/255.0, 67/255.0, 33/255.0, 1)));
+    drawer->pushShape(make_shared<Circle>(shapeShader, vec2(1300, 275), 3, color(1, 1, 0, 1)));
+
+
 }
 
 void Engine::processInput() {
@@ -328,6 +333,15 @@ void Engine::render() {
                     cushion->click();
                     cushion->move(vec2(100,0));
                 } else message = cushion->getText();
+            }
+            drawer->setUniformsAndDraw();
+            if (drawer->isOverlapping({MouseX, MouseY}) && click) {
+                if (drawer->clicked()) message = drawer->getText();
+                else {
+                    message = "Hmm it's locked";
+                    drawer->click();
+                    drawer->resize(1.25);
+                }
             }
 
             //text

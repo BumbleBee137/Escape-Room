@@ -27,6 +27,11 @@ void Rect::draw() const {
     glBindVertexArray(0);
 }
 
+void Rect::setSize(float f) {
+    size = vec2(size.x * f, size.y * f);
+}
+
+
 void Rect::initVectors() {
     this->vertices.insert(vertices.end(), {
             // Note: the order of the corners matters because the two triangles

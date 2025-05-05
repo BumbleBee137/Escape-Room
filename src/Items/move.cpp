@@ -7,7 +7,7 @@
 
 Move::Move(string t) : Item(t) {}
 
-void Move::resize(vec2 size) {
+void Move::resize(float size) {
     for (const shared_ptr<Shape>& s : shapes) {
         s->setSize(size);
     }
