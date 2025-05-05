@@ -343,6 +343,15 @@ void Engine::render() {
                     drawer->resize(1.25);
                 }
             }
+            candle->setUniformsAndDraw();
+            if (candle->isOverlapping({MouseX, MouseY}) && click) {
+                if (flame->clicked()) message = flame->getText();
+                else {
+                    flame->click();
+                    flame->setUniformsAndDraw();
+                    message = candle->getText();
+                }
+            }
 
             //text
             this->fontRenderer->renderText(message, width/2 - (12 * message.length()), height-50, projection, 1, vec3{1, 1, 1});
