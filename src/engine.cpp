@@ -139,6 +139,10 @@ void Engine::initShapes() {
     drawerKey = make_unique<Hold>("A gold key", vec2(1080,575));
     drawerKey->pushShape(make_shared<Rect>(shapeShader, vec2(1080, 575), vec2(50,20), color(1,1, 0, 1)));
 
+    lighter = make_unique<Hold>("A lighter", vec2(width/2-520,160));
+    lighter->pushShape(make_shared<Rect>(shapeShader, vec2(width/2-520,160), vec2(50,20), color(0,0, 0, 1)));
+
+
     //moveable objects
     curtains = make_unique<Move>("I've already opened these");
     curtains->pushShape(make_shared<Rect>(shapeShader, vec2(width/2, 880),vec2(500,10), color(0,0,0,1)));
@@ -349,6 +353,11 @@ void Engine::render() {
             table->setUniformsAndDraw();
             if (table->isOverlapping({MouseX, MouseY}) && click) message = table->getText();
             //items
+            if(cushion->clicked()) lighter->setUniformsAndDraw();
+            if (lighter->isOverlapping({MouseX, MouseY}) && click && !cushion->isOverlapping({MouseX, MouseY})) {
+                message = inventory->grab(lighter);
+            }
+
             cushion->setUniformsAndDraw();
             if (cushion->isOverlapping({MouseX, MouseY}) && click) {
                 if (!cushion->clicked()){
@@ -380,10 +389,14 @@ void Engine::render() {
             candle->setUniformsAndDraw();
             if (candle->isOverlapping({MouseX, MouseY}) && click) {
                 if (candle->clicked()) message = candle->getText();
-                else {
+                else if (inventory->current() == lighter) {
                     candle->click();
                     candle->pushShape(make_shared<Triangle>(shapeShader, vec2(1350,525),vec2(25,50),color(1,1,0,1)));
                     message = "*Click*";
+                    inventory->remove();
+                }
+                else {
+                    message = "It's a candle";
                 }
             }
 
