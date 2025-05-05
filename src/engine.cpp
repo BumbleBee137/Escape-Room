@@ -147,6 +147,10 @@ void Engine::initShapes() {
     cushion->pushShape(make_shared<Rect>(shapeShader, vec2(width/2-500,225), vec2(75,75), color(1,.9,.9, 1)));
     cushion->pushShape(make_shared<Circle>(shapeShader, vec2(width/2-525,225), 6, color(1,.9,.9, 1)));
 
+    frame = make_unique<Move>("Much better");
+    frame->pushShape(make_shared<Rect>(shapeShader, vec2(1000, 650), vec2(200,200), color(150/255.0, 75/255.0, 0, 1)));
+    frame->pushShape(make_shared<Rect>(shapeShader, vec2(1000, 650), vec2(170,170), color(.5, .75, .5, 1)));
+    frame->rotate(30);
 
 }
 
@@ -296,6 +300,15 @@ void Engine::render() {
             frame2->setUniformsAndDraw();
             if (frame2->isOverlapping({MouseX, MouseY}) && click) message = frame2->getText();
             //items
+            frame->setUniformsAndDraw();
+            if (frame->isOverlapping({MouseX, MouseY}) && click) {
+                if (frame->clicked()) message = frame->getText();
+                else {
+                    message = "Let me fix that";
+                    frame->rotate(-30);
+                    frame->click();
+                }
+            }
 
             //text
             this->fontRenderer->renderText(message, width/2 - (12 * message.length()), height - 50, projection, 1, vec3{1, 1, 1});
