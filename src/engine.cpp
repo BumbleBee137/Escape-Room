@@ -70,7 +70,6 @@ void Engine::initShaders() {
 }
 
 void Engine::initShapes() {
-
     //background objects
     door = make_unique<Item>("It's locked. I should find the key");
     door->pushShape(make_shared<Rect>(shapeShader, vec2(500, 200), vec2(500,1200), color(150/255.0, 75/255.0, 0, 1)));
@@ -99,7 +98,7 @@ void Engine::initShapes() {
     couch->pushShape(make_shared<Circle>(shapeShader, vec2(width/2+25,225), 6, color(1,.9,.9, 1)));
 
     bookshelf = make_unique<Item>("I don't feel like reading");
-        //shelving
+    //shelving
     bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2, height/2 - 100), vec2(600,1000), color(150/255.0, 75/255.0, 0, 1))); //back
     bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2, height/2 + 393), vec2(600,20), color(101/255.0, 67/255.0, 33/255.0, 1)));//top
     bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2, height/2 - 495), vec2(600,20), color(101/255.0, 67/255.0, 33/255.0, 1)));//bottom
@@ -109,19 +108,19 @@ void Engine::initShapes() {
     bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2, height/2 + 200), vec2(600,20), color(101/255.0, 67/255.0, 33/255.0, 1)));//shelf
     bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 300, height/2 - 100), vec2(20,1005), color(101/255.0, 67/255.0, 33/255.0, 1)));//side
     bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 - 300, height/2 - 100), vec2(20,1005), color(101/255.0, 67/255.0, 33/255.0, 1)));//side
-        //books on shelf 1
+    //books on shelf 1
     for (int i = 0; i < 11; i++) {
-        bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 278 - i*50, height/2 +273), vec2(25,125), color(0,0,.25, 1)));
-        bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 253 - i*50, height/2 +273), vec2(25,125), color(0,.25,.0, 1)));
+        bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 278 - i*50, height/2 +273), vec2(25,125), color(.25,.25,.5, 1)));
+        bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 253 - i*50, height/2 +273), vec2(25,125), color(.25,.5,.25, 1)));
     }
-    bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 282 - 11*50, height/2 +273), vec2(29,125), color(0,0,.25, 1)));
-        //shelf 2
-    bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 - 200, height/2 + 25), vec2(175,30), color(0,0,.25, 1)));
-    bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 - 200, height/2 + 55), vec2(150,30), color(0,.25,0, 1)));
-        //shelf 3
+    bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 282 - 11*50, height/2 +273), vec2(29,125), color(.25,.25,.5, 1)));
+    //shelf 2
+    bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 - 200, height/2 + 25), vec2(175,30), color(.25,.25,.5, 1)));
+    bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 - 200, height/2 + 55), vec2(150,30), color(.25,.5,.25, 1)));
+    //shelf 3
     for (int i = 0; i < 8; i++) {
-        bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 278 - i*50, height/2 -128), vec2(25,125), color(0,0,.25, 1)));
-        bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 253 - i*50, height/2 -128), vec2(25,125), color(0,.25,.0, 1)));
+        bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 278 - i*50, height/2 -128), vec2(25,125), color(.25,.25,.5, 1)));
+        bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 253 - i*50, height/2 -128), vec2(25,125), color(.25,.5,.25, 1)));
     }
 
     table = make_unique<Item>("This sure is a table");
@@ -182,7 +181,38 @@ void Engine::initShapes() {
     cat->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 60, 460), vec2(150, 20), color(0,0,0,1)));//tail
     cat->pushShape(make_shared<Triangle>(shapeShader, vec2(width/2 -180,520),vec2(25,50),color(0,0,0,1)));
 
+    book0 = make_shared<Hold>("Tallest book", vec2(width/2 + 168, height/2 +93));
+    book0->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 168, height/2 +93), vec2(35,165), color(.25,.5,.25, 1)));
 
+    book1 = make_shared<Hold>("Second tallest book", vec2{width/2 + 238, height/2 +83});
+    book1->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 238, height/2 +83), vec2(35,145), color(.25,.25,.5, 1)));
+
+    book2 = make_shared<Hold>("Medium book",vec2(width/2 + 203, height/2 +73));
+    book2->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 203, height/2 +73), vec2(35,125), color(.25,.25,.5, 1)));
+
+    book3 = make_shared<Hold>("Second shortest book", vec2(width/2 + 273, height/2 +63));
+    book3->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 273, height/2 +63), vec2(35,105), color(.25,.5,.25, 1)));
+
+    book4 = make_shared<Hold>("Shortest book", vec2(width/2 + 133, height/2 +53));
+    book4->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 133, height/2 +53), vec2(35,85), color(.25,.25,.5, 1)));
+
+    hint0 = make_shared<Hold>("These books are out of order", vec2(width/2 + 273, height/2 +93));
+    hint0->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 273, height/2 +93), vec2(35,165), color(125/255.0, 70/255.0, 15/255.0, 1)));
+
+    hint1 = make_shared<Hold>("These books are out of order", vec2{width/2 + 238, height/2 +83});
+    hint1->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 238, height/2 +83), vec2(35,145), color(125/255.0, 70/255.0, 15/255.0, 1)));
+
+    hint2 = make_shared<Hold>("These books are out of order",vec2(width/2 + 203, height/2 +73));
+    hint2->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 203, height/2 +73), vec2(35,125), color(125/255.0, 70/255.0, 15/255.0, 1)));
+
+    hint3 = make_shared<Hold>("These books are out of order", vec2(width/2 + 168, height/2 +63));
+    hint3->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 168, height/2 +63), vec2(35,105), color(125/255.0, 70/255.0, 15/255.0, 1)));
+
+    hint4 = make_shared<Hold>("These books are out of order", vec2(width/2 + 133, height/2 +53));
+    hint4->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 133, height/2 +53), vec2(35,85), color(125/255.0, 70/255.0, 15/255.0, 1)));
+
+    hints = {hint0, hint1, hint2, hint3, hint4};
+    stack = {book4, book3, book0, book2};
 }
 
 void Engine::processInput() {
@@ -312,13 +342,36 @@ void Engine::render() {
                     inventory->remove();
                     inventory->grab(fish);
                 }
-                else if (inventory->current() == book) {
-                    inventory->remove();
-                    message = "Ooh a page fell out";
-                    if (!paper->getGrabbed()) inventory->grab(paper);
-                }
                 else message = bookshelf->getText();
             }
+            //drawing hint outlines for book puzzle
+            for (shared_ptr<Hold> h : hints) {
+                h->setUniformsAndDraw();
+            }
+            //drawing books & grabbing them
+            for (shared_ptr<Hold> b : stack) {
+                if (b != nullptr) {
+                    b->setUniformsAndDraw();
+                    if (b->isOverlapping({MouseX, MouseY}) && click) message = inventory->grab(b);
+                }
+            }
+            //clicking on hint - should drop the book
+            for (shared_ptr<Hold> h : hints) {
+                if (h->isOverlapping(vec2(MouseX, MouseY)) && click) {
+                    if (inventory->current() == book) {
+                        message = "Well now they're out of order";
+                        inventory->remove();
+                        book1->move(vec2(h->getPos().x, book1->getPos().y));
+                        stack.push_back(book1);
+                        book1->setUniformsAndDraw();
+                        inventory->remove();
+                        break;
+                    }
+                    else message = "There's a book missing";
+                }
+            }
+
+
 
             //items
 

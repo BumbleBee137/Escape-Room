@@ -8,9 +8,9 @@ Hold::Hold(string t, vec2 p) : Item(t) {
     pos = p;
 }
 
-void Hold::resize(vec2 size) {
+void Hold::resize(vec2 l) {
     for (const shared_ptr<Shape>& s : shapes) {
-        s->setSize(size);
+        s->setSize(l);
     }
 }
 
@@ -32,4 +32,12 @@ void Hold::setGrabbed(bool tf) {
 }
 bool Hold::getGrabbed() {
     return grabbed;
+}
+
+void Hold::drop() {
+    this->resize(size);
+}
+
+vec2 Hold::getPos() const {
+    return pos;
 }
