@@ -135,6 +135,9 @@ void Engine::initShapes() {
     square = make_shared<Hold>("Square", vec2(width/2, height/2));
     square->pushShape(make_shared<Rect>(shapeShader, vec2{width/2, height/2}, vec2{50, 50}, color(1, 1, 1, 1)));
 
+    treat = make_unique<Hold>("A cat treat", vec2(width/2 + 100, height/2 - 130));
+    treat->pushShape(make_shared<Rect>(shapeShader, vec2{width/2 + 100, height/2 - 130}, vec2{10, 10}, color(.5, .25, 0, 1)));
+
     //moveable objects
     curtains = make_unique<Move>("I've already opened these");
     curtains->pushShape(make_shared<Rect>(shapeShader, vec2(width/2, 880),vec2(500,10), color(0,0,0,1)));
@@ -268,9 +271,9 @@ void Engine::render() {
             if (wind->isOverlapping({MouseX, MouseY}) && click) message = "What a nice view";
 
             //items
-            if (!square->getGrabbed())
-                square->setUniformsAndDraw();
-            if (square->isOverlapping({MouseX, MouseY}) && click) message = inventory->grab(square);
+            if (!treat->getGrabbed())
+                treat->setUniformsAndDraw();
+            if (treat->isOverlapping({MouseX, MouseY}) && click) message = inventory->grab(treat);
 
             curtains->setUniformsAndDraw();
             if (curtains->isOverlapping({MouseX, MouseY}) && click) {
@@ -343,7 +346,13 @@ void Engine::render() {
                 } else message = cushion->getText();
             }
             cat->setUniformsAndDraw();
-            if (cat->isOverlapping({MouseX, MouseY}) && click) message = cat->getText();
+            if (cat->isOverlapping({MouseX, MouseY}) && click){
+                if (inventory->current() == treat) {
+                    message = "Awww it liked that. I should find some more treats";
+                    inventory->remove();
+                }
+                else message = cat->getText();
+            }
 
             drawer->setUniformsAndDraw();
             if (drawer->isOverlapping({MouseX, MouseY}) && click) {
