@@ -156,6 +156,8 @@ void Engine::initShapes() {
     drawer->pushShape(make_shared<Rect>(shapeShader, vec2(1300, 275), vec2(200,100), color(101/255.0, 67/255.0, 33/255.0, 1)));
     drawer->pushShape(make_shared<Circle>(shapeShader, vec2(1300, 275), 3, color(1, 1, 0, 1)));
 
+    candle = make_unique<Move>("FIRE!!!");
+    candle->pushShape(make_shared<Rect>(shapeShader, vec2(1350, 425), vec2(50, 100), color(1,1,1,1)));
 
 }
 
@@ -345,11 +347,11 @@ void Engine::render() {
             }
             candle->setUniformsAndDraw();
             if (candle->isOverlapping({MouseX, MouseY}) && click) {
-                if (flame->clicked()) message = flame->getText();
+                if (candle->clicked()) message = candle->getText();
                 else {
-                    flame->click();
-                    flame->setUniformsAndDraw();
-                    message = candle->getText();
+                    candle->click();
+                    candle->pushShape(make_shared<Triangle>(shapeShader, vec2(1350,525),vec2(25,50),color(1,1,0,1)));
+                    message = "*Click*";
                 }
             }
 
