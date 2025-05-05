@@ -130,8 +130,6 @@ void Engine::initShapes() {
     table->pushShape(make_shared<Rect>(shapeShader, vec2(1425, 150), vec2(50,400), color(150/255.0, 75/255.0, 0, 1)));
     //inventory objects
     inventory = make_unique<Inventory>(shapeShader);
-    square = make_shared<Hold>("Square", vec2(width/2, height/2));
-    square->pushShape(make_shared<Rect>(shapeShader, vec2{width/2, height/2}, vec2{50, 50}, color(1, 1, 1, 1)));
 
     treat = make_unique<Hold>("A cat treat", vec2(width/2 + 100, height/2 - 130));
     treat->pushShape(make_shared<Rect>(shapeShader, vec2{width/2 + 100, height/2 - 130}, vec2{10, 10}, color(.5, .25, 0, 1)));
@@ -147,6 +145,12 @@ void Engine::initShapes() {
 
     paper = make_unique<Hold>("This paper is blank", vec2(0,0));
     paper->pushShape(make_shared<Rect>(shapeShader, vec2(0,0), vec2(50,20), color(1,1, 1, 1)));
+
+    fish = make_unique<Hold>("Ew it's a fish", vec2(0,0));
+    fish->pushShape(make_shared<Rect>(shapeShader, vec2(0,0), vec2(50,20), color(1,0.5, 0.5, 1)));
+
+    catKey = make_shared<Hold>("A slimy key shaped fish bone", vec2(width/2, height/2));
+    catKey->pushShape(make_shared<Rect>(shapeShader, vec2{width/2, height/2}, vec2{50, 50}, color(1, 1, 1, 1)));
 
 
     //moveable objects
@@ -286,10 +290,6 @@ void Engine::render() {
                 treat->setUniformsAndDraw();
             if (treat->isOverlapping({MouseX, MouseY}) && click && !treat->getGrabbed()) message = inventory->grab(treat);
 
-            if (!square->getGrabbed())
-                square->setUniformsAndDraw();
-            if (square->isOverlapping({MouseX, MouseY}) && click && !square->getGrabbed()) message = inventory->grab(square);
-
             curtains->setUniformsAndDraw();
             if (curtains->isOverlapping({MouseX, MouseY}) && click) {
                 if (curtains->clicked()) message = "I prefer these open";
@@ -310,6 +310,7 @@ void Engine::render() {
             if (bookshelf->isOverlapping({MouseX, MouseY}) && click) {
                 if (inventory->current() == paper && paper->getText() == "'fish'") {
                     inventory->remove();
+                    inventory->grab(fish);
                 }
                 else if (inventory->current() == book) {
                     inventory->remove();
@@ -330,7 +331,7 @@ void Engine::render() {
             door->setUniformsAndDraw();
             if (door->isOverlapping({MouseX, MouseY}) && click) {
                 if (inventory->current() == drawerKey) message = "This is the wrong key";
-                else if (inventory->current() != square) message = door->getText();
+                else if (inventory->current() != catKey) message = door->getText();
                 else {
                     screen = win;
                     inventory->remove();
@@ -390,6 +391,16 @@ void Engine::render() {
                     message = "Awww it liked that. I should find some more treats";
                     inventory->remove();
                 }
+                else if (inventory->current() == fish) {
+                    message = "Woah slow down kitty, no one's taking your fish";
+                    inventory->remove();
+                    cat->click();
+                }
+                else if (cat->clicked() && !catKey->getGrabbed()) {
+                    message = "EWWWW it barfed in my hand";
+                    inventory->grab(catKey);
+                }
+                else if (cat->clicked()) message = "What a weird cat";
                 else message = cat->getText();
             }
 
