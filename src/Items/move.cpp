@@ -5,9 +5,7 @@
 
 
 
-Move::Move(string t, vec2 p) : Item(t) {
-    pos = p;
-}
+Move::Move(string t) : Item(t) {}
 
 void Move::resize(vec2 size) {
     for (const shared_ptr<Shape>& s : shapes) {

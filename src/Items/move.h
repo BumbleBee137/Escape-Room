@@ -7,11 +7,11 @@
 #include "item.h"
 class Move : public Item {
 private:
-    vec2 pos;
+    vec2 pos = vec2(0, 0);
     bool changed = false;
 
 public:
-    Move(string t, vec2 p);
+    Move(string t);
 
     void resize(vec2 size);
     void move(vec2 p);

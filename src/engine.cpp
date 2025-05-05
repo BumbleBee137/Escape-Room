@@ -125,9 +125,9 @@ void Engine::initShapes() {
     }
 
     table = make_unique<Item>("This sure is a table");
-    table->pushShape(make_shared<Rect>(shapeShader, vec2(1300, 400), vec2(300,50), color(150/255.0, 75/255.0, 0, 1)));
-    table->pushShape(make_shared<Rect>(shapeShader, vec2(1175, 200), vec2(50,400), color(150/255.0, 75/255.0, 0, 1)));
-    table->pushShape(make_shared<Rect>(shapeShader, vec2(1425, 200), vec2(50,400), color(150/255.0, 75/255.0, 0, 1)));
+    table->pushShape(make_shared<Rect>(shapeShader, vec2(1300, 350), vec2(300,50), color(150/255.0, 75/255.0, 0, 1)));
+    table->pushShape(make_shared<Rect>(shapeShader, vec2(1175, 150), vec2(50,400), color(150/255.0, 75/255.0, 0, 1)));
+    table->pushShape(make_shared<Rect>(shapeShader, vec2(1425, 150), vec2(50,400), color(150/255.0, 75/255.0, 0, 1)));
 
 
     //inventory objects
@@ -136,12 +136,18 @@ void Engine::initShapes() {
     square->pushShape(make_shared<Rect>(shapeShader, vec2{width/2, height/2}, vec2{50, 50}, color(1, 1, 1, 1)));
 
     //moveable objects
-    curtains = make_unique<Move>("I've already opened these", vec2(0,0));
+    curtains = make_unique<Move>("I've already opened these");
     curtains->pushShape(make_shared<Rect>(shapeShader, vec2(width/2, 880),vec2(500,10), color(0,0,0,1)));
     curtains->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 -300, 525),vec2(200,720), color(.5,0,0,1)));
     curtains->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 +300, 525),vec2(200,720), color(.5,0,0,1)));
     curtains->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 125, 525),vec2(200,720), color(.5,0,0,1)));
     curtains->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 - 125, 525),vec2(200,720), color(.5,0,0,1)));
+
+    cushion = make_unique<Move>("What a soft cushion");
+    cushion->pushShape(make_shared<Rect>(shapeShader, vec2(width/2-500,225), vec2(75,75), color(1,.9,.9, 1)));
+    cushion->pushShape(make_shared<Circle>(shapeShader, vec2(width/2-525,225), 6, color(1,.9,.9, 1)));
+
+
 }
 
 void Engine::processInput() {
@@ -302,6 +308,14 @@ void Engine::render() {
             table->setUniformsAndDraw();
             if (table->isOverlapping({MouseX, MouseY}) && click) message = table->getText();
             //items
+            cushion->setUniformsAndDraw();
+            if (cushion->isOverlapping({MouseX, MouseY}) && click) {
+                if (!cushion->clicked()){
+                    message = "I'm just gonna scooch that over";
+                    cushion->click();
+                    cushion->move(vec2(100,0));
+                } else message = cushion->getText();
+            }
 
             //text
             this->fontRenderer->renderText(message, width/2 - (12 * message.length()), height-50, projection, 1, vec3{1, 1, 1});
