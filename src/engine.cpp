@@ -46,6 +46,8 @@ unsigned int Engine::initWindow(bool debug) {
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glfwSwapInterval(1);
+    screen = east;
+
 
     return 0;
 }
@@ -70,7 +72,7 @@ void Engine::initShaders() {
 void Engine::initShapes() {
 
     //background objects
-    door = make_unique<Item>("This is a door");
+    door = make_unique<Item>("It's locked. I should find the key");
     door->pushShape(make_shared<Rect>(shapeShader, vec2(500, 200), vec2(500,1200), color(150/255.0, 75/255.0, 0, 1)));
     door->pushShape(make_shared<Circle>(shapeShader, vec2(650, 350), 3, color(1, 1, 1, 1)));
 
@@ -97,15 +99,30 @@ void Engine::initShapes() {
     couch->pushShape(make_shared<Circle>(shapeShader, vec2(width/2+275,225), 6, color(1,.9,.9, 1)));
 
     bookshelf = make_unique<Item>("I don't feel like reading");
+        //shelving
     bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2, height/2 - 100), vec2(600,1000), color(150/255.0, 75/255.0, 0, 1))); //back
-    bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2, height/2 + 400), vec2(600,20), color(101/255.0, 67/255.0, 33/255.0, 1)));//top
-    bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2, height/2 - 500), vec2(600,20), color(101/255.0, 67/255.0, 33/255.0, 1)));//bottom
+    bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2, height/2 + 393), vec2(600,20), color(101/255.0, 67/255.0, 33/255.0, 1)));//top
+    bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2, height/2 - 495), vec2(600,20), color(101/255.0, 67/255.0, 33/255.0, 1)));//bottom
     bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2, height/2 + 200), vec2(600,20), color(101/255.0, 67/255.0, 33/255.0, 1)));//shelf
     bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2, height/2), vec2(600,20), color(101/255.0, 67/255.0, 33/255.0, 1)));//shelf
     bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2, height/2 - 200), vec2(600,20), color(101/255.0, 67/255.0, 33/255.0, 1)));//shelf
     bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2, height/2 + 200), vec2(600,20), color(101/255.0, 67/255.0, 33/255.0, 1)));//shelf
     bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 300, height/2 - 100), vec2(20,1005), color(101/255.0, 67/255.0, 33/255.0, 1)));//side
     bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 - 300, height/2 - 100), vec2(20,1005), color(101/255.0, 67/255.0, 33/255.0, 1)));//side
+        //books on shelf 1
+    for (int i = 0; i < 11; i++) {
+        bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 278 - i*50, height/2 +273), vec2(25,125), color(0,0,.25, 1)));
+        bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 253 - i*50, height/2 +273), vec2(25,125), color(0,.25,.0, 1)));
+    }
+    bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 282 - 11*50, height/2 +273), vec2(29,125), color(0,0,.25, 1)));
+        //shelf 2
+    bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 - 200, height/2 + 25), vec2(175,30), color(0,0,.25, 1)));
+    bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 - 200, height/2 + 55), vec2(150,30), color(0,.25,0, 1)));
+        //shelf 3
+    for (int i = 0; i < 8; i++) {
+        bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 278 - i*50, height/2 -128), vec2(25,125), color(0,0,.25, 1)));
+        bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 253 - i*50, height/2 -128), vec2(25,125), color(0,.25,.0, 1)));
+    }
 
     //inventory objects
     inventory = make_unique<Inventory>(shapeShader);
@@ -209,6 +226,7 @@ void Engine::update() {
 void Engine::render() {
     glClearColor(234.0/255.0, 210.0/255.0, 168.0/255.0f, 1.0f); // Set background color
     glClear(GL_COLOR_BUFFER_BIT);
+
 
     // Set shader to draw shapes
     shapeShader.use();
