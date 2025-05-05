@@ -159,6 +159,12 @@ void Engine::initShapes() {
     candle = make_unique<Move>("FIRE!!!");
     candle->pushShape(make_shared<Rect>(shapeShader, vec2(1350, 425), vec2(50, 100), color(1,1,1,1)));
 
+    cat = make_unique<Move>("I don't think this cat likes me very much");
+    cat->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 - 100, 480), vec2(200, 60), color(0,0,0,1)));//body
+    cat->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 60, 460), vec2(150, 20), color(0,0,0,1)));//tail
+    cat->pushShape(make_shared<Triangle>(shapeShader, vec2(width/2 -180,520),vec2(25,50),color(0,0,0,1)));
+
+
 }
 
 void Engine::processInput() {
@@ -336,6 +342,9 @@ void Engine::render() {
                     cushion->move(vec2(100,0));
                 } else message = cushion->getText();
             }
+            cat->setUniformsAndDraw();
+            if (cat->isOverlapping({MouseX, MouseY}) && click) message = cat->getText();
+
             drawer->setUniformsAndDraw();
             if (drawer->isOverlapping({MouseX, MouseY}) && click) {
                 if (drawer->clicked()) message = drawer->getText();
