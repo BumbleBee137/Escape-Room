@@ -45,11 +45,14 @@ string Inventory::grab(shared_ptr<Hold> hold) {
     hold->setGrabbed(true);
     hold->resize({50,50});
     hold->move(boxes[items.size() + 1]->getPos());
+
     items.push_back(hold);
-    cout << items.size()<< endl;
     return hold->getText();
 }
 
 void Inventory::remove() {
     if (items.size() > index) items.erase(items.begin() + index);
+    for (int i = 0; i < items.size(); i++){
+        items[i]->move(boxes[i+1]->getPos());
+    }
 }

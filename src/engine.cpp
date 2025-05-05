@@ -284,11 +284,11 @@ void Engine::render() {
             //items
             if (!treat->getGrabbed())
                 treat->setUniformsAndDraw();
-            if (treat->isOverlapping({MouseX, MouseY}) && click) message = inventory->grab(treat);
+            if (treat->isOverlapping({MouseX, MouseY}) && click && !treat->getGrabbed()) message = inventory->grab(treat);
 
             if (!square->getGrabbed())
                 square->setUniformsAndDraw();
-            if (square->isOverlapping({MouseX, MouseY}) && click) message = inventory->grab(square);
+            if (square->isOverlapping({MouseX, MouseY}) && click && !square->getGrabbed()) message = inventory->grab(square);
 
             curtains->setUniformsAndDraw();
             if (curtains->isOverlapping({MouseX, MouseY}) && click) {
@@ -308,12 +308,15 @@ void Engine::render() {
             //background
             bookshelf->setUniformsAndDraw();
             if (bookshelf->isOverlapping({MouseX, MouseY}) && click) {
-                if (inventory->current() != book) message = bookshelf->getText();
-                else {
+                if (inventory->current() == paper && paper->getText() == "'fish'") {
+                    inventory->remove();
+                }
+                else if (inventory->current() == book) {
                     inventory->remove();
                     message = "Ooh a page fell out";
-                    inventory->grab(paper);
+                    if (!paper->getGrabbed()) inventory->grab(paper);
                 }
+                else message = bookshelf->getText();
             }
 
             //items
@@ -341,7 +344,8 @@ void Engine::render() {
             //items
             if (!drawerKey->getGrabbed()) drawerKey->setUniformsAndDraw();
             frame->setUniformsAndDraw();
-            if (drawerKey->isOverlapping({MouseX, MouseY}) && click && !frame->isOverlapping({MouseX, MouseY})) {
+            if (drawerKey->isOverlapping({MouseX, MouseY}) && click && !frame->isOverlapping({MouseX, MouseY})
+                && !drawerKey->getGrabbed()) {
                 message = inventory->grab(drawerKey);
 
             }
@@ -366,8 +370,9 @@ void Engine::render() {
             table->setUniformsAndDraw();
             if (table->isOverlapping({MouseX, MouseY}) && click) message = table->getText();
             //items
-            if(cushion->clicked()) lighter->setUniformsAndDraw();
-            if (lighter->isOverlapping({MouseX, MouseY}) && click && !cushion->isOverlapping({MouseX, MouseY})) {
+            if(cushion->clicked() && !lighter->getGrabbed()) lighter->setUniformsAndDraw();
+            if (lighter->isOverlapping({MouseX, MouseY}) && click && !cushion->isOverlapping({MouseX, MouseY})
+                && !lighter->getGrabbed()) {
                 message = inventory->grab(lighter);
             }
 
