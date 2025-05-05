@@ -92,11 +92,11 @@ void Engine::initShapes() {
     frame2->pushShape(make_shared<Rect>(shapeShader, vec2(1300, 500), vec2(170,170), color(.5, .75, .75, 1)));
 
     couch = make_unique<Item>("This looks comfy");
-    couch->pushShape(make_shared<Rect>(shapeShader, vec2(width/2, 150), vec2(800,200), color(255/255.0, 160/255.0, 122/255.0, 1))); //bottom cushion
-    couch->pushShape(make_shared<Rect>(shapeShader, vec2(width/2, 300), vec2(800,300), color(255/255.0, 138/255.0, 100/255.0, 1))); //back cushion
-    couch->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 400, 150), vec2(100,300), color(255/255.0, 160/255.0, 122/255.0, 1)));//right arm
-    couch->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 - 400, 150), vec2(100,300), color(255/255.0, 160/255.0, 122/255.0, 1)));//left arm
-    couch->pushShape(make_shared<Circle>(shapeShader, vec2(width/2+275,225), 6, color(1,.9,.9, 1)));
+    couch->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 - 250, 150), vec2(800,200), color(255/255.0, 160/255.0, 122/255.0, 1))); //bottom cushion
+    couch->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 - 250, 300), vec2(800,300), color(255/255.0, 138/255.0, 100/255.0, 1))); //back cushion
+    couch->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 150, 150), vec2(100,300), color(255/255.0, 160/255.0, 122/255.0, 1)));//right arm
+    couch->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 - 650, 150), vec2(100,300), color(255/255.0, 160/255.0, 122/255.0, 1)));//left arm
+    couch->pushShape(make_shared<Circle>(shapeShader, vec2(width/2+25,225), 6, color(1,.9,.9, 1)));
 
     bookshelf = make_unique<Item>("I don't feel like reading");
         //shelving
@@ -123,6 +123,12 @@ void Engine::initShapes() {
         bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 278 - i*50, height/2 -128), vec2(25,125), color(0,0,.25, 1)));
         bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 253 - i*50, height/2 -128), vec2(25,125), color(0,.25,.0, 1)));
     }
+
+    table = make_unique<Item>("This sure is a table");
+    table->pushShape(make_shared<Rect>(shapeShader, vec2(1300, 400), vec2(300,50), color(150/255.0, 75/255.0, 0, 1)));
+    table->pushShape(make_shared<Rect>(shapeShader, vec2(1175, 200), vec2(50,400), color(150/255.0, 75/255.0, 0, 1)));
+    table->pushShape(make_shared<Rect>(shapeShader, vec2(1425, 200), vec2(50,400), color(150/255.0, 75/255.0, 0, 1)));
+
 
     //inventory objects
     inventory = make_unique<Inventory>(shapeShader);
@@ -293,6 +299,8 @@ void Engine::render() {
             //background
             couch->setUniformsAndDraw();
             if (couch->isOverlapping({MouseX, MouseY}) && click) message = couch->getText();
+            table->setUniformsAndDraw();
+            if (table->isOverlapping({MouseX, MouseY}) && click) message = table->getText();
             //items
 
             //text
