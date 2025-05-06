@@ -343,13 +343,6 @@ void Engine::render() {
         case south: {
             //background
             bookshelf->setUniformsAndDraw();
-            if (bookshelf->isOverlapping({MouseX, MouseY}) && click) {
-                if (inventory->current() == paper) {
-                    inventory->remove();
-                    inventory->grab(fish);
-                }
-                else message = bookshelf->getText();
-            }
             //drawing hint outlines for book puzzle
             for (shared_ptr<Hold> h : hints) {
                 h->setUniformsAndDraw();
@@ -418,10 +411,11 @@ void Engine::render() {
             if (box->isOverlapping(vec2(MouseX, MouseY)) && click && inventory->current() == paper) {
                 box->pushShape(make_shared<Rect>(shapeShader, vec2(600, 370), vec2(100,100), color (0,0,0,1)));
                 box->pushShape(make_shared<Rect>(shapeShader, vec2(550, 370), vec2(20,125), color (.25,.25,.25,1)));
+                inventory->remove();
                 box->click();
-            }
+            } else if (box->isOverlapping(vec2(MouseX, MouseY)) && click) message = box->getText();
             if (box->clicked()) fish->setUniformsAndDraw();
-            if (fish->isOverlapping(vec2(MouseX, MouseY)) && click) message = inventory->grab(fish);
+            if (fish->isOverlapping(vec2(MouseX, MouseY)) && click && box->clicked()) message = inventory->grab(fish);
 
             //items
 
