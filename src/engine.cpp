@@ -343,6 +343,7 @@ void Engine::render() {
         case south: {
             //background
             bookshelf->setUniformsAndDraw();
+            if (bookshelf->isOverlapping({MouseX, MouseY}) && click) message = bookshelf->getText();
             //drawing hint outlines for book puzzle
             for (shared_ptr<Hold> h : hints) {
                 h->setUniformsAndDraw();
