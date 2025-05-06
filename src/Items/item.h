@@ -18,7 +18,7 @@ protected:
     string text;
 
 public:
-    // Constructors
+    // Constructor
     Item(string t);
 
     // Draw the item
@@ -27,9 +27,11 @@ public:
     // Return true if overlaps with a point given
     bool isOverlapping(const vec2& point) const;
 
+    //text associated with item (what's displayed at the top of the screen)
     string getText() const;
     void setText(string t);
 
+    //editing the shape makeup of the item
     void pushShape(const std::shared_ptr<Shape> shape);
     void clearShapes();
 

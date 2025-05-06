@@ -11,12 +11,16 @@ private:
     bool changed = false;
 
 public:
+    //constructor
     Move(string t);
 
+    //tools for moving object around on the screen - they do what they say
     void resize(float size);
     void move(vec2 p);
     void rotate(float angle);
-    void pop();
+    void pop();//removes a shape from the item
+
+    //getter and setter for determining if item has already been accessed
     bool clicked();
     void click();
 
