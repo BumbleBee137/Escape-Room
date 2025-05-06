@@ -359,10 +359,6 @@ void Engine::render() {
                     b->setUniformsAndDraw();
             }
 
-            if (book2->isOverlapping(hint2->getPos())) {
-                message = "Ooh a page fell out";
-                if (!blank->getGrabbed()) inventory->grab(blank);
-            }
 
             //clicking on hint or books
             for (int i = 0; i < hints.size(); i++) {
@@ -387,6 +383,9 @@ void Engine::render() {
                         book0->move(vec2(hints[i]->getPos().x, book0->getPos().y));
                         book0->resize(vec2(35, 165));
                         book0->setGrabbed(false);
+                        //giving blank page
+                        message = "Ooh a page fell out";
+                        if (!blank->getGrabbed()) inventory->grab(blank);
                         break;
                     } else if (inventory->current() == book2) {
                         message = "Well now they're out of order";
@@ -416,7 +415,7 @@ void Engine::render() {
 
             //drawing safe
             box->setUniformsAndDraw();
-            if (box->isOverlapping(vec2(MouseX, MouseY)) && click && inventory->current() == blank) {
+            if (box->isOverlapping(vec2(MouseX, MouseY)) && click && inventory->current() == paper) {
                 box->pushShape(make_shared<Rect>(shapeShader, vec2(600, 370), vec2(100,100), color (0,0,0,1)));
                 box->pushShape(make_shared<Rect>(shapeShader, vec2(550, 370), vec2(20,125), color (.25,.25,.25,1)));
                 box->click();
