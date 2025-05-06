@@ -348,28 +348,65 @@ void Engine::render() {
             for (shared_ptr<Hold> h : hints) {
                 h->setUniformsAndDraw();
             }
-            //drawing books & grabbing them
+            //drawing books
             for (shared_ptr<Hold> b : stack) {
-                if (b != nullptr) {
                     b->setUniformsAndDraw();
-                    if (b->isOverlapping({MouseX, MouseY}) && click && !b->getGrabbed()) message = inventory->grab(b);
-                }
             }
-            //clicking on hint - should drop the book
-            for (shared_ptr<Hold> h : hints) {
-                if (h->isOverlapping(vec2(MouseX, MouseY)) && click) {
-                    if (inventory->current() == book) {
+
+            //clicking on hint or books
+            for (int i = 0; i < hints.size(); i++) {
+                if (stack.size() > 4 && stack[i]->isOverlapping({MouseX, MouseY}) && click && !stack[i]->getGrabbed()) {
+                    inventory->grab(stack[i]);
+                }
+                else if (hints[i]->isOverlapping(vec2(MouseX, MouseY)) && click) {
+                    if (inventory->current() == book || inventory->current() == book1) {
                         message = "Well now they're out of order";
                         inventory->remove();
-                        book1->move(vec2(h->getPos().x, book1->getPos().y));
-                        if (stack.size() <= 5) stack.push_back(book1);
-                        book1->setUniformsAndDraw();
+                        book1->move(vec2(hints[i]->getPos().x, book1->getPos().y));
+                        book1->resize(vec2(35, 145));
+                        book1->setGrabbed(false);
+                        if (stack.size() <= 5) {
+                            stack.push_back(book1);
+                            book1->setUniformsAndDraw();
+                        }
+                        break;
+                    } else if (inventory->current() == book0) {
+                        message = "Well now they're out of order";
+                        inventory->remove();
+                        book0->move(vec2(hints[i]->getPos().x, book0->getPos().y));
+                        book0->resize(vec2(35, 165));
+                        book0->setGrabbed(false);
+                        break;
+                    } else if (inventory->current() == book2) {
+                        message = "Well now they're out of order";
+                        inventory->remove();
+                        book2->move(vec2(hints[i]->getPos().x, book2->getPos().y));
+                        book2->resize(vec2(35, 125));
+                        book2->setGrabbed(false);
+                        break;
+                    } else if (inventory->current() == book3) {
+                        message = "Well now they're out of order";
+                        inventory->remove();
+                        book3->move(vec2(hints[i]->getPos().x, book3->getPos().y));
+                        book3->resize(vec2(35, 105));
+                        book3->setGrabbed(false);
+                        break;
+                    } else if (inventory->current() == book4) {
+                        message = "Well now they're out of order";
+                        inventory->remove();
+                        book4->move(vec2(hints[i]->getPos().x, book4->getPos().y));
+                        book4->resize(vec2(35, 85));
+                        book4->setGrabbed(false);
                         break;
                     }
                     else message = "There's a book missing";
                 }
             }
+            if (book0->getPos() == vec2(width/2 + 273, height/2 +93) && book1->getPos() == vec2(width/2 + 238, height/2 +83) &&
+                book2->getPos() == vec2(width/2 + 203, height/2 +73) && book3->getPos() == vec2(width/2 + 168, height/2 +63) &&
+                book4->getPos() == vec2(width/2 + 135, height/2 +53)) {
 
+            }
 
 
             //items
