@@ -18,14 +18,15 @@ I think I deserve 150 points.
 * 20 points: All inventory items can be added to inventory and used from inventory
 * 20 points: There are 4 walls which can be toggled between and contents are remembered throughout the program
 * 10 points: All inventory items have a text description and all interactable objects in the room have commentary when interacted with (ex: “This cabinet seems to be locked. Perhaps I should find a key”)
-* 70 points (Simple puzzles, 10 points each):
+* 80 points (Simple puzzles, 10 points each):
   * Tilting picture frame to get key
   * Pushing couch cushion aside to get lighter
   * Using key to unlock drawer & collect book
   * Opening curtains to get cat treat
   * Feeding cat the cat treat
+  * Using password on safe to open it & collect a fish
   * Feeding fish to the cat to get key
   * Unlocking door
-* 30 points (Complex puzzles, 30 points each):
-  * Using lighter to light candle then using paper on candle to see secret message
-  * 
+* 60 points (Complex puzzles, 30 points each):
+  * Using lighter and blank paper on candle to get secret message
+  * Putting books in the right order to get blank paper
