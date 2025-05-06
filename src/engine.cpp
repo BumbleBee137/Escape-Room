@@ -127,6 +127,9 @@ void Engine::initShapes() {
     table->pushShape(make_shared<Rect>(shapeShader, vec2(1300, 350), vec2(300,50), color(150/255.0, 75/255.0, 0, 1)));
     table->pushShape(make_shared<Rect>(shapeShader, vec2(1175, 150), vec2(50,400), color(150/255.0, 75/255.0, 0, 1)));
     table->pushShape(make_shared<Rect>(shapeShader, vec2(1425, 150), vec2(50,400), color(150/255.0, 75/255.0, 0, 1)));
+
+    box = make_unique<Move>("This safe needs a password");
+    box->pushShape(make_shared<Rect>(shapeShader, vec2(600, 370), vec2(125,125), color (.25,.25,.25,1)));
     //inventory objects
     inventory = make_unique<Inventory>(shapeShader);
 
@@ -142,11 +145,14 @@ void Engine::initShapes() {
     book = make_unique<Hold>("A book", vec2(0,0));
     book->pushShape(make_shared<Rect>(shapeShader, vec2(0,0), vec2(50,20), color(0,0, 1, 1)));
 
-    paper = make_unique<Hold>("This paper is blank", vec2(0,0));
+    blank = make_unique<Hold>("This paper is blank and smells like lemons", vec2(0,0));
+    blank->pushShape(make_shared<Rect>(shapeShader, vec2(0,0), vec2(50,20), color(1,1, 1, 1)));
+
+    paper = make_unique<Hold>("'fish'", vec2(0,0));
     paper->pushShape(make_shared<Rect>(shapeShader, vec2(0,0), vec2(50,20), color(1,1, 1, 1)));
 
-    fish = make_unique<Hold>("Ew it's a fish", vec2(0,0));
-    fish->pushShape(make_shared<Rect>(shapeShader, vec2(0,0), vec2(50,20), color(1,0.5, 0.5, 1)));
+    fish = make_unique<Hold>("Ew it's a fish", vec2(600, 370));
+    fish->pushShape(make_shared<Rect>(shapeShader, vec2(600, 370), vec2(50,20), color(1,0.5, 0.5, 1)));
 
     catKey = make_shared<Hold>("A slimy key shaped fish bone", vec2(width/2, height/2));
     catKey->pushShape(make_shared<Rect>(shapeShader, vec2{width/2, height/2}, vec2{50, 50}, color(1, 1, 1, 1)));
@@ -211,7 +217,7 @@ void Engine::initShapes() {
     hint4 = make_shared<Hold>("These books are out of order", vec2(width/2 + 133, height/2 +53));
     hint4->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 133, height/2 +53), vec2(35,85), color(125/255.0, 70/255.0, 15/255.0, 1)));
 
-    hints = {hint0, hint1, hint2, hint3, hint4};
+    hints = {hint4, hint3, hint0, hint2, hint1};
     stack = {book4, book3, book0, book2};
 }
 
@@ -338,7 +344,7 @@ void Engine::render() {
             //background
             bookshelf->setUniformsAndDraw();
             if (bookshelf->isOverlapping({MouseX, MouseY}) && click) {
-                if (inventory->current() == paper && paper->getText() == "'fish'") {
+                if (inventory->current() == paper) {
                     inventory->remove();
                     inventory->grab(fish);
                 }
@@ -353,11 +359,16 @@ void Engine::render() {
                     b->setUniformsAndDraw();
             }
 
+            if (book2->isOverlapping(hint2->getPos())) {
+                message = "Ooh a page fell out";
+                if (!blank->getGrabbed()) inventory->grab(blank);
+            }
+
             //clicking on hint or books
             for (int i = 0; i < hints.size(); i++) {
                 if (stack.size() > 4 && stack[i]->isOverlapping({MouseX, MouseY}) && click && !stack[i]->getGrabbed()) {
                     inventory->grab(stack[i]);
-                }
+                }//when a slot is clicked on, put whichever book is selected in inventory into the slot
                 else if (hints[i]->isOverlapping(vec2(MouseX, MouseY)) && click) {
                     if (inventory->current() == book || inventory->current() == book1) {
                         message = "Well now they're out of order";
@@ -402,12 +413,16 @@ void Engine::render() {
                     else message = "There's a book missing";
                 }
             }
-            if (book0->getPos() == vec2(width/2 + 273, height/2 +93) && book1->getPos() == vec2(width/2 + 238, height/2 +83) &&
-                book2->getPos() == vec2(width/2 + 203, height/2 +73) && book3->getPos() == vec2(width/2 + 168, height/2 +63) &&
-                book4->getPos() == vec2(width/2 + 135, height/2 +53)) {
 
+            //drawing safe
+            box->setUniformsAndDraw();
+            if (box->isOverlapping(vec2(MouseX, MouseY)) && click && inventory->current() == blank) {
+                box->pushShape(make_shared<Rect>(shapeShader, vec2(600, 370), vec2(100,100), color (0,0,0,1)));
+                box->pushShape(make_shared<Rect>(shapeShader, vec2(550, 370), vec2(20,125), color (.25,.25,.25,1)));
+                box->click();
             }
-
+            if (box->clicked()) fish->setUniformsAndDraw();
+            if (fish->isOverlapping(vec2(MouseX, MouseY)) && click) message = inventory->grab(fish);
 
             //items
 
@@ -426,7 +441,7 @@ void Engine::render() {
                     inventory->remove();
                 }
             }
-
+            //drawing some background stuff
             frame1->setUniformsAndDraw();
             if (frame1->isOverlapping({MouseX, MouseY}) && click) message = frame1->getText();
             frame2->setUniformsAndDraw();
@@ -438,7 +453,7 @@ void Engine::render() {
                 && !drawerKey->getGrabbed()) {
                 message = inventory->grab(drawerKey);
 
-            }
+            }//fixing the crooked frame
             if (frame->isOverlapping({MouseX, MouseY}) && click) {
                 if (frame->clicked()) message = frame->getText();
                 else {
@@ -465,7 +480,7 @@ void Engine::render() {
                 && !lighter->getGrabbed()) {
                 message = inventory->grab(lighter);
             }
-
+            //moving cushion over
             cushion->setUniformsAndDraw();
             if (cushion->isOverlapping({MouseX, MouseY}) && click) {
                 if (!cushion->clicked()){
@@ -474,6 +489,7 @@ void Engine::render() {
                     cushion->move(vec2(100,0));
                 } else message = cushion->getText();
             }
+            //drawing cat & checking responses based on inventory item selected
             cat->setUniformsAndDraw();
             if (cat->isOverlapping({MouseX, MouseY}) && click){
                 if (inventory->current() == treat) {
@@ -508,10 +524,11 @@ void Engine::render() {
             candle->setUniformsAndDraw();
             if (candle->isOverlapping({MouseX, MouseY}) && click) {
                 if (candle->clicked()) {
-                    if (inventory->current() != paper) message = candle->getText();
+                    if (inventory->current() != blank) message = candle->getText();
                     else {
                         message = "Ooh a secret message";
-                        paper->setText("'fish'");
+                        inventory->remove();
+                        inventory->grab(paper);
                     }
                 }
                 else if (inventory->current() == lighter) {
@@ -524,8 +541,6 @@ void Engine::render() {
                     message = "It's a candle";
                 }
             }
-
-
 
             //text
             this->fontRenderer->renderText(message, width/2 - (12 * message.length()), height-50, projection, 1, vec3{1, 1, 1});

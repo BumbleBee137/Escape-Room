@@ -48,8 +48,8 @@ private:
     // Items
     unique_ptr<Inventory> inventory;
     unique_ptr<Item> door, wind, table, frame1, frame2, couch, bookshelf;
-    shared_ptr<Hold> drawerKey, lighter, book, treat, fish, paper, catKey, book0, book1, book2, book3, book4, hint0, hint1, hint2, hint3, hint4;
-    unique_ptr<Move> curtains, frame, candle, cat, cushion, drawer;
+    shared_ptr<Hold> drawerKey, lighter, book, treat, fish, paper, blank, catKey, book0, book1, book2, book3, book4, hint0, hint1, hint2, hint3, hint4;
+    unique_ptr<Move> curtains, frame, candle, cat, cushion, drawer, box;
     vector<shared_ptr<Hold>> stack, hints;
     //hard puzzles to add: safe, books
 
