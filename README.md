@@ -13,7 +13,7 @@ No added installations necessary to run this code beyond that which is needed fo
 Windows 11. I used parent-child class relationships from module 2 and graphics from module 4.
 
 GRADING:
-I think I deserve 150 points.
+I think I deserve 190 points.
 
 * 20 points: All inventory items can be added to inventory and used from inventory
 * 20 points: There are 4 walls which can be toggled between and contents are remembered throughout the program
