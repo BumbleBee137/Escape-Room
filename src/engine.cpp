@@ -97,7 +97,7 @@ void Engine::initShapes() {
     couch->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 - 650, 150), vec2(100,300), color(255/255.0, 160/255.0, 122/255.0, 1)));//left arm
     couch->pushShape(make_shared<Circle>(shapeShader, vec2(width/2+25,225), 6, color(1,.9,.9, 1)));
 
-    bookshelf = make_unique<Item>("I don't feel like reading");
+    bookshelf = make_unique<Item>("Looks like there's a book missing");
     //shelving
     bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2, height/2 - 100), vec2(600,1000), color(150/255.0, 75/255.0, 0, 1))); //back
     bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2, height/2 + 393), vec2(600,20), color(101/255.0, 67/255.0, 33/255.0, 1)));//top
@@ -117,6 +117,15 @@ void Engine::initShapes() {
     //shelf 2
     bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 - 200, height/2 + 25), vec2(175,30), color(.25,.25,.5, 1)));
     bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 - 200, height/2 + 55), vec2(150,30), color(.25,.5,.25, 1)));
+    for (int i = 0; i < 4; i++) {
+        bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 278 - i*50, height/2 +72), vec2(25,125), color(.25,.25,.5, 1)));
+        bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 253 - i*50, height/2 +72), vec2(25,125), color(.25,.5,.25, 1)));
+    }
+     bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 253- 200, height/2 +72), vec2(25,125), color(.25,.5,.25, 1)));
+    for (int i = 5; i < 8; i++) {
+        bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 278 - i*50, height/2 +72), vec2(25,125), color(.25,.25,.5, 1)));
+        bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 253 - i*50, height/2 +72), vec2(25,125), color(.25,.5,.25, 1)));
+    }
     //shelf 3
     for (int i = 0; i < 8; i++) {
         bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 278 - i*50, height/2 -128), vec2(25,125), color(.25,.25,.5, 1)));
@@ -186,39 +195,6 @@ void Engine::initShapes() {
     cat->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 - 100, 480), vec2(200, 60), color(0,0,0,1)));//body
     cat->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 60, 460), vec2(150, 20), color(0,0,0,1)));//tail
     cat->pushShape(make_shared<Triangle>(shapeShader, vec2(width/2 -180,520),vec2(25,50),color(0,0,0,1)));
-
-    book0 = make_shared<Hold>("Tallest book", vec2(width/2 + 168, height/2 +93));
-    book0->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 168, height/2 +93), vec2(35,165), color(.25,.5,.25, 1)));
-
-    book1 = make_shared<Hold>("Second tallest book", vec2{width/2 + 238, height/2 +83});
-    book1->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 238, height/2 +83), vec2(35,145), color(.25,.25,.5, 1)));
-
-    book2 = make_shared<Hold>("Medium book",vec2(width/2 + 203, height/2 +73));
-    book2->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 203, height/2 +73), vec2(35,125), color(.25,.25,.5, 1)));
-
-    book3 = make_shared<Hold>("Second shortest book", vec2(width/2 + 273, height/2 +63));
-    book3->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 273, height/2 +63), vec2(35,105), color(.25,.5,.25, 1)));
-
-    book4 = make_shared<Hold>("Shortest book", vec2(width/2 + 133, height/2 +53));
-    book4->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 133, height/2 +53), vec2(35,85), color(.25,.25,.5, 1)));
-
-    hint0 = make_shared<Hold>("These books are out of order", vec2(width/2 + 273, height/2 +93));
-    hint0->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 273, height/2 +93), vec2(35,165), color(125/255.0, 70/255.0, 15/255.0, 1)));
-
-    hint1 = make_shared<Hold>("These books are out of order", vec2{width/2 + 238, height/2 +83});
-    hint1->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 238, height/2 +83), vec2(35,145), color(125/255.0, 70/255.0, 15/255.0, 1)));
-
-    hint2 = make_shared<Hold>("These books are out of order",vec2(width/2 + 203, height/2 +73));
-    hint2->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 203, height/2 +73), vec2(35,125), color(125/255.0, 70/255.0, 15/255.0, 1)));
-
-    hint3 = make_shared<Hold>("These books are out of order", vec2(width/2 + 168, height/2 +63));
-    hint3->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 168, height/2 +63), vec2(35,105), color(125/255.0, 70/255.0, 15/255.0, 1)));
-
-    hint4 = make_shared<Hold>("These books are out of order", vec2(width/2 + 133, height/2 +53));
-    hint4->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 133, height/2 +53), vec2(35,85), color(125/255.0, 70/255.0, 15/255.0, 1)));
-
-    hints = {hint4, hint3, hint0, hint2, hint1};
-    stack = {book4, book3, book0, book2};
 }
 
 void Engine::processInput() {
@@ -344,68 +320,6 @@ void Engine::render() {
             //background
             bookshelf->setUniformsAndDraw();
             if (bookshelf->isOverlapping({MouseX, MouseY}) && click) message = bookshelf->getText();
-            //drawing hint outlines for book puzzle
-            for (shared_ptr<Hold> h : hints) {
-                h->setUniformsAndDraw();
-            }
-            //drawing books
-            for (shared_ptr<Hold> b : stack) {
-                    b->setUniformsAndDraw();
-            }
-
-
-            //clicking on hint or books
-            for (int i = 0; i < hints.size(); i++) {
-                if (stack.size() > 4 && stack[i]->isOverlapping({MouseX, MouseY}) && click && !stack[i]->getGrabbed()) {
-                    inventory->grab(stack[i]);
-                }//when a slot is clicked on, put whichever book is selected in inventory into the slot
-                else if (hints[i]->isOverlapping(vec2(MouseX, MouseY)) && click) {
-                    if (inventory->current() == book || inventory->current() == book1) {
-                        message = "Well now they're out of order";
-                        inventory->remove();
-                        book1->move(vec2(hints[i]->getPos().x, book1->getPos().y));
-                        book1->resize(vec2(35, 145));
-                        book1->setGrabbed(false);
-                        if (stack.size() <= 5) {
-                            stack.push_back(book1);
-                            book1->setUniformsAndDraw();
-                        }
-                        break;
-                    } else if (inventory->current() == book0) {
-                        message = "Well now they're out of order";
-                        inventory->remove();
-                        book0->move(vec2(hints[i]->getPos().x, book0->getPos().y));
-                        book0->resize(vec2(35, 165));
-                        book0->setGrabbed(false);
-                        //giving blank page
-                        message = "Ooh a page fell out";
-                        if (!blank->getGrabbed()) inventory->grab(blank);
-                        break;
-                    } else if (inventory->current() == book2) {
-                        message = "Well now they're out of order";
-                        inventory->remove();
-                        book2->move(vec2(hints[i]->getPos().x, book2->getPos().y));
-                        book2->resize(vec2(35, 125));
-                        book2->setGrabbed(false);
-                        break;
-                    } else if (inventory->current() == book3) {
-                        message = "Well now they're out of order";
-                        inventory->remove();
-                        book3->move(vec2(hints[i]->getPos().x, book3->getPos().y));
-                        book3->resize(vec2(35, 105));
-                        book3->setGrabbed(false);
-                        break;
-                    } else if (inventory->current() == book4) {
-                        message = "Well now they're out of order";
-                        inventory->remove();
-                        book4->move(vec2(hints[i]->getPos().x, book4->getPos().y));
-                        book4->resize(vec2(35, 85));
-                        book4->setGrabbed(false);
-                        break;
-                    }
-                    else message = "There's a book missing";
-                }
-            }
 
             //drawing safe
             box->setUniformsAndDraw();
