@@ -121,7 +121,8 @@ void Engine::initShapes() {
         bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 278 - i*50, height/2 +72), vec2(25,125), color(.25,.25,.5, 1)));
         bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 253 - i*50, height/2 +72), vec2(25,125), color(.25,.5,.25, 1)));
     }
-     bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 253- 200, height/2 +72), vec2(25,125), color(.25,.5,.25, 1)));
+    bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 78, height/2 +72), vec2(25,125), color(125/255.0, 70/255.0, 15/255.0, 1)));
+    bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 53, height/2 +72), vec2(25,125), color(.25,.5,.25, 1)));
     for (int i = 5; i < 8; i++) {
         bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 278 - i*50, height/2 +72), vec2(25,125), color(.25,.25,.5, 1)));
         bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 253 - i*50, height/2 +72), vec2(25,125), color(.25,.5,.25, 1)));
@@ -131,6 +132,7 @@ void Engine::initShapes() {
         bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 278 - i*50, height/2 -128), vec2(25,125), color(.25,.25,.5, 1)));
         bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 253 - i*50, height/2 -128), vec2(25,125), color(.25,.5,.25, 1)));
     }
+
 
     table = make_unique<Item>("This sure is a table");
     table->pushShape(make_shared<Rect>(shapeShader, vec2(1300, 350), vec2(300,50), color(150/255.0, 75/255.0, 0, 1)));
@@ -319,7 +321,15 @@ void Engine::render() {
         case south: {
             //background
             bookshelf->setUniformsAndDraw();
-            if (bookshelf->isOverlapping({MouseX, MouseY}) && click) message = bookshelf->getText();
+            if (bookshelf->isOverlapping({MouseX, MouseY}) && click) {
+                message = bookshelf->getText();
+                if (inventory->current() == book) {
+                    inventory->remove();
+                    inventory->grab(blank);
+                    bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 78, height/2 +72), vec2(25,125), color(.25,.25,.5, 1)));
+                    bookshelf->setText("A paper fell out");
+                }
+            }
 
             //drawing safe
             box->setUniformsAndDraw();

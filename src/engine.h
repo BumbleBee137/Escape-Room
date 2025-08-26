@@ -48,7 +48,7 @@ private:
     // Items
     unique_ptr<Inventory> inventory;
     unique_ptr<Item> door, wind, table, frame1, frame2, couch, bookshelf;
-    shared_ptr<Hold> drawerKey, lighter, book, treat, fish, paper, blank, catKey, gap;
+    shared_ptr<Hold> drawerKey, lighter, book, treat, fish, paper, blank, catKey;
     unique_ptr<Move> curtains, frame, candle, cat, cushion, drawer, box;
 
 
