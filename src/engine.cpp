@@ -321,14 +321,14 @@ void Engine::render() {
         case south: {
             //background
             bookshelf->setUniformsAndDraw();
-            if (bookshelf->isOverlapping({MouseX, MouseY}) && click) {
-                message = bookshelf->getText();
+            if (bookshelf->isOverlapping({MouseX, MouseY}) && click){
                 if (inventory->current() == book) {
                     inventory->remove();
                     inventory->grab(blank);
                     bookshelf->pushShape(make_shared<Rect>(shapeShader, vec2(width/2 + 78, height/2 +72), vec2(25,125), color(.25,.25,.5, 1)));
                     bookshelf->setText("A paper fell out");
                 }
+                message = bookshelf->getText();
             }
 
             //drawing safe
